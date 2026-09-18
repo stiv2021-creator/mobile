@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../../main.dart'; // Ajusta la ruta a tu ThemeProvider
 
 class ThemeDropdownWidget extends StatelessWidget {
@@ -26,7 +27,7 @@ class ThemeDropdownWidget extends StatelessWidget {
     }
 
     // Colores basados en el diseño del botón circular
-    final circleBgColor = const Color(0xFFD4AF37).withOpacity(0.15);
+    final circleBgColor = const Color(0xFFD4AF37).withValues(alpha: 0.15);
     final textColor = isDarkMode ? Colors.white : Colors.black87;
 
     return InkWell(
