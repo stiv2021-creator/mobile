@@ -10,6 +10,15 @@ import 'features/Recuperar_contra/views/recover_password_view.dart';
 // Importa tu vista de navegación principal de Eslabón
 import 'features/navigation/views/main_navigation_view.dart';
 
+//Dashboard
+import 'features/Principal/Dashboard/Dashboard.dart';
+
+//Empleados
+import 'features/personal/empleados/views/empleados_view.dart';
+
+//Ventas
+import 'features/operaciones/ventas/views/ventas_view.dart';
+
 // 1. Proveedor global para gestionar el estado del tema con persistencia
 class ThemeProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system; // Por defecto usa el del sistema
@@ -105,6 +114,9 @@ class EslabonApp extends StatelessWidget {
         '/recover': (context) => const RecoverPasswordView(),
         '/home': (context) =>
             const MainNavigationView(), // Tu menú principal de Eslabón
+        '/dashboard': (context) => const DashboardPage(), // Ruta para el Dashboard
+        '/empleados': (context) => const EmpleadosView(), // Ruta para la vista de empleados
+        '/ventas': (context) => const VentasView(), // Ruta para la vista de ventas
       },
     );
   }
