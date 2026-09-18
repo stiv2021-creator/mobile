@@ -11,6 +11,7 @@ import '../../operaciones/ventas/views/ventas_view.dart';
 import '../../produccion_inventario/produccion/views/produccion_view.dart';
 import '../../operaciones/registro_diario/views/registro_diario_view.dart';
 import '../../personal/empleados/views/empleados_view.dart';
+import '../../Principal/Dashboard/Dashboard.dart';
 
 import '../widgets/theme_dropdown_widget.dart';
 
@@ -27,7 +28,7 @@ class _MainNavigationViewState extends State<MainNavigationView> {
 
   // Lista completa con las vistas del sistema mapeadas por índice
   final List<Widget> _pages = [
-    const Center(child: Text('Vista Dashboard / Inicio')), // 0: Dashboard
+    const DashboardPage(), // 0: Dashboard
     const ClientesView(), // 1: Clientes
     const ProveedoresView(), // 2: Proveedores
     const RemisionMobileView(), // 3: Remisiones
