@@ -102,8 +102,8 @@ class _EmpleadosViewState extends State<EmpleadosView> {
     const accentColor = Color(0xFFE5B012);
 
     final borderColor = isDark
-        ? Colors.white.withOpacity(0.08)
-        : Colors.black.withOpacity(0.06);
+        ? Colors.white.withValues(alpha: 0.08)
+        : Colors.black.withValues(alpha: 0.06);
 
     final lista = _empleadosFiltrados;
 
@@ -373,7 +373,7 @@ class _EmpleadosViewState extends State<EmpleadosView> {
             : [
                 BoxShadow(
                   color:
-                      Colors.black.withOpacity(0.03),
+                      Colors.black.withValues(alpha: 0.03),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -517,9 +517,9 @@ class _EmpleadosViewState extends State<EmpleadosView> {
                       decoration: BoxDecoration(
                         color: esAdmin
                             ? accentColor
-                                .withOpacity(0.15)
+                                .withValues(alpha: 0.15)
                             : primaryText
-                                .withOpacity(0.05),
+                                .withValues(alpha: 0.05),
 
                         borderRadius:
                             BorderRadius.circular(6),
@@ -533,7 +533,7 @@ class _EmpleadosViewState extends State<EmpleadosView> {
                           color: esAdmin
                               ? accentColor
                               : primaryText
-                                  .withOpacity(0.8),
+                                  .withValues(alpha: 0.8),
 
                           fontSize: 11,
                           fontWeight:
@@ -609,7 +609,7 @@ class _EmpleadosViewState extends State<EmpleadosView> {
                     icon: Icon(
                       Icons.edit_outlined,
                       color:
-                          primaryText.withOpacity(0.7),
+                          primaryText.withValues(alpha: 0.7),
                       size: 20,
                     ),
 
@@ -747,7 +747,7 @@ class _EmpleadosViewState extends State<EmpleadosView> {
                         decoration:
                             BoxDecoration(
                           color: secondaryText
-                              .withOpacity(0.3),
+                              .withValues(alpha: 0.3),
 
                           borderRadius:
                               BorderRadius.circular(
@@ -770,7 +770,7 @@ class _EmpleadosViewState extends State<EmpleadosView> {
                     ),
 
                     if (esEdicion &&
-                        empleado?[
+                        empleado[
                                 'id_Empleados'] !=
                             null)
                       Padding(
@@ -779,7 +779,7 @@ class _EmpleadosViewState extends State<EmpleadosView> {
                                 top: 2.0),
 
                         child: Text(
-                          'ID: ${empleado!['id_Empleados']}',
+                          'ID: ${empleado['id_Empleados']}',
 
                           style: TextStyle(
                             fontSize: 12,
@@ -879,7 +879,7 @@ class _EmpleadosViewState extends State<EmpleadosView> {
 
                               DropdownButtonFormField<
                                   String>(
-                                value: rolSel,
+                                initialValue: rolSel,
 
                                 dropdownColor:
                                     cardColor,
@@ -951,7 +951,7 @@ class _EmpleadosViewState extends State<EmpleadosView> {
 
                               DropdownButtonFormField<
                                   String>(
-                                value:
+                                initialValue:
                                     estadoSel,
 
                                 dropdownColor:
@@ -1032,10 +1032,10 @@ class _EmpleadosViewState extends State<EmpleadosView> {
                           setState(() {
                             final String idEmp =
                                 (esEdicion &&
-                                        empleado?[
+                                        empleado[
                                                 'id_Empleados'] !=
                                             null)
-                                    ? empleado![
+                                    ? empleado[
                                         'id_Empleados']!
                                     : _generarNuevoId();
 
@@ -1243,7 +1243,7 @@ class _EmpleadosViewState extends State<EmpleadosView> {
           prefixIcon: Icon(
             icon,
             color:
-                labelColor.withOpacity(0.7),
+                labelColor.withValues(alpha: 0.7),
             size: 18,
           ),
         ),

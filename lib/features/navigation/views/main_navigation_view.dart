@@ -295,7 +295,7 @@ class _MainNavigationViewState extends State<MainNavigationView> {
           color: backgroundColor,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 4,
               offset: const Offset(0, -2),
             ),
@@ -309,8 +309,9 @@ class _MainNavigationViewState extends State<MainNavigationView> {
                   ?.openEndDrawer(); // Abre el menú lateral
             } else {
               if (index == 0) setState(() => _currentIndex = 0); // Inicio
-              if (index == 1)
+              if (index == 1) {
                 setState(() => _currentIndex = 6); // Stock (Insumos)
+              }
               if (index == 2) setState(() => _currentIndex = 1); // Clientes
               if (index == 3) setState(() => _currentIndex = 5); // Ventas
             }
@@ -392,7 +393,7 @@ class _MainNavigationViewState extends State<MainNavigationView> {
           fontSize: 13,
         ),
       ),
-      tileColor: isSelected ? const Color(0xFFD4AF37).withOpacity(0.15) : null,
+      tileColor: isSelected ? const Color(0xFFD4AF37).withValues(alpha: 0.15) : null,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       onTap: onTap,
     );

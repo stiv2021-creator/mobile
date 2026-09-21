@@ -50,7 +50,7 @@ class _RecoverPasswordViewState extends State<RecoverPasswordView> {
                     child: Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFC9A227).withOpacity(0.1),
+                        color: const Color(0xFFC9A227).withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(

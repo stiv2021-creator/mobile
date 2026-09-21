@@ -14,7 +14,7 @@ class EliminarModal extends StatelessWidget {
       insetPadding: const EdgeInsets.all(16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: Colors.red.withOpacity(0.3)),
+        side: BorderSide(color: Colors.red.withValues(alpha: 0.3)),
       ),
       content: SizedBox(
         width: double.maxFinite,
@@ -25,7 +25,7 @@ class EliminarModal extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.red.withOpacity(0.1),
+                color: Colors.red.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: const Icon(Icons.warning_amber_rounded, color: Color(0xFFE03131), size: 36),

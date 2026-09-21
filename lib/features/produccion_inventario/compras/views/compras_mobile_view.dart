@@ -154,7 +154,7 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
           child: Container(
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.12),
+              color: color.withValues(alpha: 0.12),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, size: 16, color: color),
@@ -181,7 +181,7 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
         backgroundColor: cardBg,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: BorderSide(color: goldColor.withOpacity(0.3)), // <--- CORREGIDO AQUÍ
+          side: BorderSide(color: goldColor.withValues(alpha: 0.3)), // <--- CORREGIDO AQUÍ
         ),
         title: Text(
           titulo,
@@ -189,12 +189,12 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
         ),
         content: Text(
           mensaje,
-          style: TextStyle(fontFamily: 'Montserrat', fontSize: 13, color: textColor.withOpacity(0.8)),
+          style: TextStyle(fontFamily: 'Montserrat', fontSize: 13, color: textColor.withValues(alpha: 0.8)),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Cancelar', style: TextStyle(fontFamily: 'Montserrat', color: textColor.withOpacity(0.6))),
+            child: Text('Cancelar', style: TextStyle(fontFamily: 'Montserrat', color: textColor.withValues(alpha: 0.6))),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -341,9 +341,9 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
       decoration: BoxDecoration(
         color: cardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: goldColor.withOpacity(0.3)),
+        border: Border.all(color: goldColor.withValues(alpha: 0.3)),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8, offset: const Offset(0, 3))
+          BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8, offset: const Offset(0, 3))
         ],
       ),
       child: Column(
@@ -362,7 +362,7 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                           decoration: BoxDecoration(
-                            color: goldColor.withOpacity(0.12),
+                            color: goldColor.withValues(alpha: 0.12),
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
@@ -374,7 +374,7 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                           decoration: BoxDecoration(
-                            color: goldColor.withOpacity(0.06),
+                            color: goldColor.withValues(alpha: 0.06),
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
@@ -455,7 +455,7 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                       decoration: BoxDecoration(
-                        color: estadoColor.withOpacity(0.12),
+                        color: estadoColor.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(99),
                       ),
                       child: Text(
@@ -476,8 +476,8 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: goldColor.withOpacity(0.04),
-                border: Border(top: BorderSide(color: goldColor.withOpacity(0.2))),
+                color: goldColor.withValues(alpha: 0.04),
+                border: Border(top: BorderSide(color: goldColor.withValues(alpha: 0.2))),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -519,7 +519,7 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
                           decoration: BoxDecoration(
                             color: cardBg,
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: goldColor.withOpacity(0.15)),
+                            border: Border.all(color: goldColor.withValues(alpha: 0.15)),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -615,7 +615,7 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
               decoration: BoxDecoration(
                 color: cardBg,
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-                border: Border.all(color: goldColor.withOpacity(0.4)),
+                border: Border.all(color: goldColor.withValues(alpha: 0.4)),
               ),
               padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -655,7 +655,7 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
                     Text('ESTADO', style: const TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w700, fontSize: 11, color: Color(0xFF9A9A9A))),
                     const SizedBox(height: 6),
                     DropdownButtonFormField<String>(
-                      value: estadoSeleccionado,
+                      initialValue: estadoSeleccionado,
                       dropdownColor: cardBg,
                       items: ['Pendiente', 'Recibida', 'En tránsito', 'Cancelada']
                           .map((e) => DropdownMenuItem(value: e, child: Text(e, style: TextStyle(fontFamily: 'Montserrat', fontSize: 13, color: textColor))))
@@ -727,7 +727,7 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
               decoration: BoxDecoration(
                 color: cardBg,
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-                border: Border.all(color: goldColor.withOpacity(0.4)),
+                border: Border.all(color: goldColor.withValues(alpha: 0.4)),
               ),
               padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -767,7 +767,7 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
                     Text('ESTADO', style: const TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w700, fontSize: 11, color: Color(0xFF9A9A9A))),
                     const SizedBox(height: 6),
                     DropdownButtonFormField<String>(
-                      value: estadoSeleccionado,
+                      initialValue: estadoSeleccionado,
                       dropdownColor: cardBg,
                       items: ['Pendiente', 'Recibida', 'En tránsito', 'Cancelada']
                           .map((e) => DropdownMenuItem(value: e, child: Text(e, style: TextStyle(fontFamily: 'Montserrat', fontSize: 13, color: textColor))))
@@ -829,7 +829,7 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
           decoration: BoxDecoration(
             color: cardBg,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-            border: Border.all(color: goldColor.withOpacity(0.4)),
+            border: Border.all(color: goldColor.withValues(alpha: 0.4)),
           ),
           padding: EdgeInsets.only(
             bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -914,7 +914,7 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
           decoration: BoxDecoration(
             color: cardBg,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-            border: Border.all(color: goldColor.withOpacity(0.4)),
+            border: Border.all(color: goldColor.withValues(alpha: 0.4)),
           ),
           padding: EdgeInsets.only(
             bottom: MediaQuery.of(context).viewInsets.bottom,

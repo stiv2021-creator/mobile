@@ -22,8 +22,8 @@ class Sidebar extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          border: esSeleccionado ? Border.all(color: dorado.withOpacity(0.6)) : null,
-          color: esSeleccionado ? dorado.withOpacity(0.08) : Colors.transparent,
+          border: esSeleccionado ? Border.all(color: dorado.withValues(alpha: 0.6)) : null,
+          color: esSeleccionado ? dorado.withValues(alpha: 0.08) : Colors.transparent,
         ),
         child: Row(
           children: [
