@@ -51,7 +51,7 @@ class _LoginViewState extends State<LoginView> {
                   child: Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: primaryGold.withOpacity(0.1),
+                      color: primaryGold.withValues(alpha: 0.1),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
@@ -110,7 +110,7 @@ class _LoginViewState extends State<LoginView> {
                   decoration: InputDecoration(
                     hintText: '••••••••',
                     hintStyle: GoogleFonts.montserrat(
-                      color: subtitleColor.withOpacity(0.6),
+                      color: subtitleColor.withValues(alpha: 0.6),
                       fontSize: 14,
                     ),
                     prefixIcon: Icon(
@@ -244,7 +244,7 @@ class _LoginViewState extends State<LoginView> {
     return InputDecoration(
       hintText: hint,
       hintStyle: GoogleFonts.montserrat(
-        color: subtitleColor.withOpacity(0.6),
+        color: subtitleColor.withValues(alpha: 0.6),
         fontSize: 14,
       ),
       prefixIcon: Icon(icon, color: subtitleColor, size: 20),

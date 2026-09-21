@@ -50,7 +50,7 @@ class DashboardPage extends StatelessWidget {
                     width: 48,
                     height: 48,
                     decoration: BoxDecoration(
-                      color: dorado.withOpacity(0.15),
+                      color: dorado.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(14),
                     ),
                     child: const Icon(
@@ -90,7 +90,7 @@ class DashboardPage extends StatelessWidget {
                       vertical: 7,
                     ),
                     decoration: BoxDecoration(
-                      color: verde.withOpacity(0.12),
+                      color: verde.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: const Row(
@@ -395,7 +395,7 @@ class MiniStatCard extends StatelessWidget {
         border: Border.all(color: borde),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -408,7 +408,7 @@ class MiniStatCard extends StatelessWidget {
             width: 38,
             height: 38,
             decoration: BoxDecoration(
-              color: color.withOpacity(0.13),
+              color: color.withValues(alpha: 0.13),
               borderRadius: BorderRadius.circular(11),
             ),
             child: Icon(
@@ -488,7 +488,7 @@ class GraficaCard extends StatelessWidget {
         color: fondo,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: Colors.black.withOpacity(0.08),
+          color: Colors.black.withValues(alpha: 0.08),
         ),
       ),
       child: Column(
@@ -527,7 +527,7 @@ class GraficaCard extends StatelessWidget {
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.12),
+                  color: color.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
@@ -571,8 +571,8 @@ class VentasGraficoPainter extends CustomPainter {
 
     final Paint gridPaint = Paint()
       ..color = oscuro
-          ? Colors.white.withOpacity(0.10)
-          : Colors.black.withOpacity(0.08)
+          ? Colors.white.withValues(alpha: 0.10)
+          : Colors.black.withValues(alpha: 0.08)
       ..strokeWidth = 1;
 
     final Paint axisPaint = Paint()
@@ -780,8 +780,8 @@ class ComprasGraficoPainter extends CustomPainter {
 
     final Paint gridPaint = Paint()
       ..color = oscuro
-          ? Colors.white.withOpacity(0.10)
-          : Colors.black.withOpacity(0.08)
+          ? Colors.white.withValues(alpha: 0.10)
+          : Colors.black.withValues(alpha: 0.08)
       ..strokeWidth = 1;
 
     final Paint axisPaint = Paint()
@@ -957,8 +957,8 @@ class RegistrosGraficoPainter extends CustomPainter {
 
     final Paint gridPaint = Paint()
       ..color = oscuro
-          ? Colors.white.withOpacity(0.10)
-          : Colors.black.withOpacity(0.08)
+          ? Colors.white.withValues(alpha: 0.10)
+          : Colors.black.withValues(alpha: 0.08)
       ..strokeWidth = 1;
 
     final Paint axisPaint = Paint()
@@ -1137,8 +1137,8 @@ class InsumosGraficoPainter extends CustomPainter {
 
     final Paint fondoPaint = Paint()
       ..color = oscuro
-          ? Colors.white.withOpacity(0.08)
-          : Colors.black.withOpacity(0.08)
+          ? Colors.white.withValues(alpha: 0.08)
+          : Colors.black.withValues(alpha: 0.08)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 24;
 
@@ -1398,7 +1398,7 @@ class UltimasVentasMobileCard extends StatelessWidget {
                     width: 42,
                     height: 42,
                     decoration: BoxDecoration(
-                      color: DashboardPage.dorado.withOpacity(0.12),
+                      color: DashboardPage.dorado.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: const Icon(
