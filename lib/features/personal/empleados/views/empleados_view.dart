@@ -624,24 +624,6 @@ class _EmpleadosViewState extends State<EmpleadosView> {
                       inputColor: inputColor,
                     ),
                   ),
-
-                  IconButton(
-                    visualDensity:
-                        VisualDensity.compact,
-
-                    icon: const Icon(
-                      Icons.delete_outline_rounded,
-                      color:
-                          Color(0xFFFF5252),
-                      size: 20,
-                    ),
-
-                    onPressed: () =>
-                        _confirmarEliminacion(
-                      empId,
-                      isDark,
-                    ),
-                  ),
                 ],
               ),
             ],
@@ -1106,103 +1088,6 @@ class _EmpleadosViewState extends State<EmpleadosView> {
           },
         );
       },
-    );
-  }
-
-  void _confirmarEliminacion(
-    String id,
-    bool isDark,
-  ) {
-    showDialog(
-      context: context,
-
-      builder: (context) => AlertDialog(
-        backgroundColor: isDark
-            ? const Color(0xFF222222)
-            : Colors.white,
-
-        shape:
-            RoundedRectangleBorder(
-          borderRadius:
-              BorderRadius.circular(16),
-        ),
-
-        title: Text(
-          'Eliminar Empleado',
-
-          style: TextStyle(
-            color:
-                isDark
-                    ? Colors.white
-                    : Colors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-
-        content: Text(
-          '¿Estás seguro de que deseas eliminar al empleado $id?',
-
-          style: TextStyle(
-            color: isDark
-                ? const Color(0xFFA0A0A0)
-                : Colors.black87,
-            fontSize: 14,
-          ),
-        ),
-
-        actions: [
-          TextButton(
-            onPressed: () =>
-                Navigator.pop(context),
-
-            child: Text(
-              'Cancelar',
-
-              style: TextStyle(
-                color: isDark
-                    ? Colors.white70
-                    : Colors.black54,
-              ),
-            ),
-          ),
-
-          ElevatedButton(
-            style:
-                ElevatedButton.styleFrom(
-              backgroundColor:
-                  const Color(0xFFFF5252),
-              elevation: 0,
-
-              shape:
-                  RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.circular(8),
-              ),
-            ),
-
-            onPressed: () {
-              setState(() {
-                _empleados.removeWhere(
-                  (e) =>
-                      e['id_Empleados'] ==
-                      id,
-                );
-              });
-
-              Navigator.pop(context);
-            },
-
-            child: const Text(
-              'Eliminar',
-
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 
