@@ -26,26 +26,26 @@ class _MainNavigationViewState extends State<MainNavigationView> {
   int _currentIndex = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // Lista completa con las vistas del sistema mapeadas por índice[cite: 24]
+  // Lista completa con las vistas del sistema mapeadas por índice
   final List<Widget> _pages = [
-    const DashboardPage(), // 0: Dashboard[cite: 24]
-    const ClientesView(), // 1: Clientes[cite: 24]
-    const ProveedoresView(), // 2: Proveedores[cite: 24]
-    const RemisionMobileView(), // 3: Remisiones[cite: 24]
-    const OrdenPedidoView(), // 4: Órdenes de Pedido[cite: 24]
-    const VentasView(), // 5: Ventas[cite: 24]
-    const InsumosMobileView(), // 6: Insumos[cite: 24]
-    const ComprasMobileView(), // 7: Compras[cite: 24]
-    const ProduccionView(), // 8: Gestión de Producción[cite: 24]
-    const RegistroDiarioView(), // 9: Registro Diario[cite: 24]
-    const EmpleadosView(), // 10: Empleados[cite: 24]
+    const DashboardPage(), // 0: Dashboard
+    const ClientesView(), // 1: Clientes
+    const ProveedoresView(), // 2: Proveedores
+    const RemisionMobileView(), // 3: Remisiones
+    const OrdenPedidoView(), // 4: Órdenes de Pedido
+    const VentasView(), // 5: Ventas
+    const InsumosMobileView(), // 6: Insumos
+    const ComprasMobileView(), // 7: Compras
+    const ProduccionView(), // 8: Gestión de Producción
+    const RegistroDiarioView(), // 9: Registro Diario
+    const EmpleadosView(), // 10: Empleados
   ];
 
-  // Método auxiliar para cambiar de vista desde el Drawer y cerrarlo automáticamente[cite: 24]
+  // Método auxiliar para cambiar de vista desde el Drawer y cerrarlo automáticamente
   void _navigateToPage(int index) {
-    Navigator.pop(context); // Cierra el menú lateral[cite: 24]
+    Navigator.pop(context); // Cierra el menú lateral
     setState(() {
-      _currentIndex = index; // Cambia la vista activa en el body[cite: 24]
+      _currentIndex = index; // Cambia la vista activa en el body
     });
   }
 
@@ -80,7 +80,7 @@ class _MainNavigationViewState extends State<MainNavigationView> {
         child: SafeArea(
           child: Column(
             children: [
-              // Encabezado con Logo, Selector de Tema y Botón Cerrar[cite: 24]
+              // Encabezado con Logo, Selector de Tema y Botón Cerrar
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16.0,
@@ -119,7 +119,7 @@ class _MainNavigationViewState extends State<MainNavigationView> {
                 height: 1,
               ),
 
-              // Lista de opciones del menú lateral vinculadas por índice[cite: 24]
+              // Lista de opciones del menú lateral vinculadas por índice
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.symmetric(vertical: 8),
@@ -214,7 +214,7 @@ class _MainNavigationViewState extends State<MainNavigationView> {
                 ),
               ),
 
-              // Pie de página (Perfil y Cerrar sesión)[cite: 24]
+              // Pie de página (Perfil y Cerrar sesión)
               Container(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -303,7 +303,7 @@ class _MainNavigationViewState extends State<MainNavigationView> {
         ),
       ),
 
-      // Muestra la vista seleccionada dentro del contenedor principal[cite: 24]
+      // Muestra la vista seleccionada dentro del contenedor principal
       body: _pages[_currentIndex],
 
       bottomNavigationBar: Container(
@@ -321,13 +321,13 @@ class _MainNavigationViewState extends State<MainNavigationView> {
           currentIndex: _getBottomNavIndex(),
           onTap: (index) {
             if (index == 4) {
-              _scaffoldKey.currentState?.openEndDrawer(); // Abre el menú lateral[cite: 24]
+              _scaffoldKey.currentState?.openEndDrawer(); // Abre el menú lateral
             } else {
               setState(() {
-                if (index == 0) _currentIndex = 0; // Inicio[cite: 24]
-                if (index == 1) _currentIndex = 6; // Stock (Insumos)[cite: 24]
-                if (index == 2) _currentIndex = 1; // Clientes[cite: 24]
-                if (index == 3) _currentIndex = 5; // Ventas[cite: 24]
+                if (index == 0) _currentIndex = 0; // Inicio
+                if (index == 1) _currentIndex = 6; // Stock (Insumos)
+                if (index == 2) _currentIndex = 1; // Clientes
+                if (index == 3) _currentIndex = 5; // Ventas
               });
             }
           },

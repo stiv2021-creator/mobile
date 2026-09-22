@@ -102,8 +102,8 @@ class _EmpleadosViewState extends State<EmpleadosView> {
     const accentColor = Color(0xFFE5B012);
 
     final borderColor = isDark
-        ? Colors.white.withOpacity(0.08)
-        : Colors.black.withOpacity(0.06);
+        ? Colors.white.withValues(alpha: 0.08)
+        : Colors.black.withValues(alpha: 0.06);
 
     final lista = _empleadosFiltrados;
 
@@ -373,7 +373,7 @@ class _EmpleadosViewState extends State<EmpleadosView> {
             : [
                 BoxShadow(
                   color:
-                      Colors.black.withOpacity(0.03),
+                      Colors.black.withValues(alpha: 0.03),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -517,9 +517,9 @@ class _EmpleadosViewState extends State<EmpleadosView> {
                       decoration: BoxDecoration(
                         color: esAdmin
                             ? accentColor
-                                .withOpacity(0.15)
+                                .withValues(alpha: 0.15)
                             : primaryText
-                                .withOpacity(0.05),
+                                .withValues(alpha: 0.05),
 
                         borderRadius:
                             BorderRadius.circular(6),
@@ -533,7 +533,7 @@ class _EmpleadosViewState extends State<EmpleadosView> {
                           color: esAdmin
                               ? accentColor
                               : primaryText
-                                  .withOpacity(0.8),
+                                  .withValues(alpha: 0.8),
 
                           fontSize: 11,
                           fontWeight:
@@ -609,7 +609,7 @@ class _EmpleadosViewState extends State<EmpleadosView> {
                     icon: Icon(
                       Icons.edit_outlined,
                       color:
-                          primaryText.withOpacity(0.7),
+                          primaryText.withValues(alpha: 0.7),
                       size: 20,
                     ),
 
@@ -622,24 +622,6 @@ class _EmpleadosViewState extends State<EmpleadosView> {
                           secondaryText,
                       accentColor: accentColor,
                       inputColor: inputColor,
-                    ),
-                  ),
-
-                  IconButton(
-                    visualDensity:
-                        VisualDensity.compact,
-
-                    icon: const Icon(
-                      Icons.delete_outline_rounded,
-                      color:
-                          Color(0xFFFF5252),
-                      size: 20,
-                    ),
-
-                    onPressed: () =>
-                        _confirmarEliminacion(
-                      empId,
-                      isDark,
                     ),
                   ),
                 ],
@@ -747,7 +729,7 @@ class _EmpleadosViewState extends State<EmpleadosView> {
                         decoration:
                             BoxDecoration(
                           color: secondaryText
-                              .withOpacity(0.3),
+                              .withValues(alpha: 0.3),
 
                           borderRadius:
                               BorderRadius.circular(
@@ -770,7 +752,7 @@ class _EmpleadosViewState extends State<EmpleadosView> {
                     ),
 
                     if (esEdicion &&
-                        empleado?[
+                        empleado[
                                 'id_Empleados'] !=
                             null)
                       Padding(
@@ -779,7 +761,7 @@ class _EmpleadosViewState extends State<EmpleadosView> {
                                 top: 2.0),
 
                         child: Text(
-                          'ID: ${empleado!['id_Empleados']}',
+                          'ID: ${empleado['id_Empleados']}',
 
                           style: TextStyle(
                             fontSize: 12,
@@ -879,7 +861,7 @@ class _EmpleadosViewState extends State<EmpleadosView> {
 
                               DropdownButtonFormField<
                                   String>(
-                                value: rolSel,
+                                initialValue: rolSel,
 
                                 dropdownColor:
                                     cardColor,
@@ -951,7 +933,7 @@ class _EmpleadosViewState extends State<EmpleadosView> {
 
                               DropdownButtonFormField<
                                   String>(
-                                value:
+                                initialValue:
                                     estadoSel,
 
                                 dropdownColor:
@@ -1032,10 +1014,10 @@ class _EmpleadosViewState extends State<EmpleadosView> {
                           setState(() {
                             final String idEmp =
                                 (esEdicion &&
-                                        empleado?[
+                                        empleado[
                                                 'id_Empleados'] !=
                                             null)
-                                    ? empleado![
+                                    ? empleado[
                                         'id_Empleados']!
                                     : _generarNuevoId();
 
@@ -1109,103 +1091,6 @@ class _EmpleadosViewState extends State<EmpleadosView> {
     );
   }
 
-  void _confirmarEliminacion(
-    String id,
-    bool isDark,
-  ) {
-    showDialog(
-      context: context,
-
-      builder: (context) => AlertDialog(
-        backgroundColor: isDark
-            ? const Color(0xFF222222)
-            : Colors.white,
-
-        shape:
-            RoundedRectangleBorder(
-          borderRadius:
-              BorderRadius.circular(16),
-        ),
-
-        title: Text(
-          'Eliminar Empleado',
-
-          style: TextStyle(
-            color:
-                isDark
-                    ? Colors.white
-                    : Colors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-
-        content: Text(
-          '¿Estás seguro de que deseas eliminar al empleado $id?',
-
-          style: TextStyle(
-            color: isDark
-                ? const Color(0xFFA0A0A0)
-                : Colors.black87,
-            fontSize: 14,
-          ),
-        ),
-
-        actions: [
-          TextButton(
-            onPressed: () =>
-                Navigator.pop(context),
-
-            child: Text(
-              'Cancelar',
-
-              style: TextStyle(
-                color: isDark
-                    ? Colors.white70
-                    : Colors.black54,
-              ),
-            ),
-          ),
-
-          ElevatedButton(
-            style:
-                ElevatedButton.styleFrom(
-              backgroundColor:
-                  const Color(0xFFFF5252),
-              elevation: 0,
-
-              shape:
-                  RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.circular(8),
-              ),
-            ),
-
-            onPressed: () {
-              setState(() {
-                _empleados.removeWhere(
-                  (e) =>
-                      e['id_Empleados'] ==
-                      id,
-                );
-              });
-
-              Navigator.pop(context);
-            },
-
-            child: const Text(
-              'Eliminar',
-
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _field(
     TextEditingController controller,
     String label,
@@ -1243,7 +1128,7 @@ class _EmpleadosViewState extends State<EmpleadosView> {
           prefixIcon: Icon(
             icon,
             color:
-                labelColor.withOpacity(0.7),
+                labelColor.withValues(alpha: 0.7),
             size: 18,
           ),
         ),

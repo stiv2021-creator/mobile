@@ -66,7 +66,7 @@ class _OrdenModalState extends State<OrdenModal> {
       insetPadding: const EdgeInsets.all(16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: const Color(0xFFECC159).withOpacity(0.3)),
+        side: BorderSide(color: const Color(0xFFECC159).withValues(alpha: 0.3)),
       ),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -87,7 +87,7 @@ class _OrdenModalState extends State<OrdenModal> {
               const Text('ID REMISIÓN', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white70)),
               const SizedBox(height: 6),
               DropdownButtonFormField<String>(
-                value: _remisionSeleccionada,
+                initialValue: _remisionSeleccionada,
                 dropdownColor: const Color(0xFF252525),
                 style: const TextStyle(color: Colors.white, fontSize: 14),
                 decoration: InputDecoration(
@@ -105,7 +105,7 @@ class _OrdenModalState extends State<OrdenModal> {
               const Text('ESTADO', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white70)),
               const SizedBox(height: 6),
               DropdownButtonFormField<String>(
-                value: _estadoSeleccionado,
+                initialValue: _estadoSeleccionado,
                 dropdownColor: const Color(0xFF252525),
                 style: const TextStyle(color: Colors.white, fontSize: 14),
                 decoration: InputDecoration(

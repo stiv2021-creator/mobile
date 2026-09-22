@@ -14,24 +14,13 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool oscuro = Theme.of(context).brightness == Brightness.dark;
-
     final Color fondo =
         oscuro ? const Color(0xFF121212) : const Color(0xFFF5F5F5);
-
-    final Color tarjeta =
-        oscuro ? const Color(0xFF1E1E1E) : Colors.white;
-
-    final Color tarjetaSecundaria =
-        oscuro ? const Color(0xFF252525) : const Color(0xFFF8F8F8);
-
-    final Color texto =
-        oscuro ? Colors.white : const Color(0xFF181818);
-
+    final Color tarjeta = oscuro ? const Color(0xFF1E1E1E) : Colors.white;
+    final Color texto = oscuro ? Colors.white : const Color(0xFF181818);
     final Color textoSecundario =
         oscuro ? Colors.white70 : const Color(0xFF777777);
-
-    final Color borde =
-        oscuro ? Colors.white12 : Colors.black12;
+    final Color borde = oscuro ? Colors.white12 : Colors.black12;
 
     return Scaffold(
       backgroundColor: fondo,
@@ -50,7 +39,7 @@ class DashboardPage extends StatelessWidget {
                     width: 48,
                     height: 48,
                     decoration: BoxDecoration(
-                      color: dorado.withOpacity(0.15),
+                      color: dorado.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(14),
                     ),
                     child: const Icon(
@@ -60,7 +49,6 @@ class DashboardPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 12),
-
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,14 +71,13 @@ class DashboardPage extends StatelessWidget {
                       ],
                     ),
                   ),
-
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,
                       vertical: 7,
                     ),
                     decoration: BoxDecoration(
-                      color: verde.withOpacity(0.12),
+                      color: verde.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: const Row(
@@ -114,7 +101,6 @@ class DashboardPage extends StatelessWidget {
                   ),
                 ],
               ),
-
               const SizedBox(height: 24),
 
               // ---------------------------------------------------------
@@ -128,7 +114,6 @@ class DashboardPage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
               const SizedBox(height: 12),
 
               // ---------------------------------------------------------
@@ -165,7 +150,6 @@ class DashboardPage extends StatelessWidget {
                   ),
                 ],
               ),
-
               const SizedBox(height: 12),
 
               // ---------------------------------------------------------
@@ -202,7 +186,6 @@ class DashboardPage extends StatelessWidget {
                   ),
                 ],
               ),
-
               const SizedBox(height: 12),
 
               // ---------------------------------------------------------
@@ -239,7 +222,6 @@ class DashboardPage extends StatelessWidget {
                   ),
                 ],
               ),
-
               const SizedBox(height: 26),
 
               // ---------------------------------------------------------
@@ -263,7 +245,6 @@ class DashboardPage extends StatelessWidget {
                   ),
                 ),
               ),
-
               const SizedBox(height: 16),
 
               // ---------------------------------------------------------
@@ -287,7 +268,6 @@ class DashboardPage extends StatelessWidget {
                   ),
                 ),
               ),
-
               const SizedBox(height: 16),
 
               // ---------------------------------------------------------
@@ -311,7 +291,6 @@ class DashboardPage extends StatelessWidget {
                   ),
                 ),
               ),
-
               const SizedBox(height: 16),
 
               // ---------------------------------------------------------
@@ -335,7 +314,6 @@ class DashboardPage extends StatelessWidget {
                   ),
                 ),
               ),
-
               const SizedBox(height: 20),
 
               // ---------------------------------------------------------
@@ -347,7 +325,6 @@ class DashboardPage extends StatelessWidget {
                 textoSecundario: textoSecundario,
                 borde: borde,
               ),
-
               const SizedBox(height: 20),
             ],
           ),
@@ -358,9 +335,8 @@ class DashboardPage extends StatelessWidget {
 }
 
 // =====================================================================
-// KPI
+// KPI (Modificado para alinear al centro)
 // =====================================================================
-
 class MiniStatCard extends StatelessWidget {
   final String titulo;
   final String valor;
@@ -388,6 +364,7 @@ class MiniStatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity, // Asegura que tome todo el ancho para centrar
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: fondo,
@@ -395,20 +372,20 @@ class MiniStatCard extends StatelessWidget {
         border: Border.all(color: borde),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center, // Centrado
         children: [
           Container(
             width: 38,
             height: 38,
             decoration: BoxDecoration(
-              color: color.withOpacity(0.13),
+              color: color.withValues(alpha: 0.13),
               borderRadius: BorderRadius.circular(11),
             ),
             child: Icon(
@@ -417,32 +394,29 @@ class MiniStatCard extends StatelessWidget {
               size: 21,
             ),
           ),
-
           const SizedBox(height: 12),
-
           Text(
             titulo,
+            textAlign: TextAlign.center, // Texto centrado
             style: TextStyle(
               color: textoSecundario,
               fontSize: 12,
             ),
           ),
-
           const SizedBox(height: 4),
-
           Text(
             valor,
+            textAlign: TextAlign.center, // Texto centrado
             style: TextStyle(
               color: texto,
               fontSize: 21,
               fontWeight: FontWeight.bold,
             ),
           ),
-
           const SizedBox(height: 3),
-
           Text(
             subtitulo,
+            textAlign: TextAlign.center, // Texto centrado
             style: TextStyle(
               color: textoSecundario,
               fontSize: 11,
@@ -455,10 +429,9 @@ class MiniStatCard extends StatelessWidget {
 }
 
 // =====================================================================
-// CARD DE GRAFICA
+// CARD DE GRAFICA (Modificado para incluir filtro)
 // =====================================================================
-
-class GraficaCard extends StatelessWidget {
+class GraficaCard extends StatefulWidget {
   final String titulo;
   final String valor;
   final String porcentaje;
@@ -481,38 +454,46 @@ class GraficaCard extends StatelessWidget {
   });
 
   @override
+  State<GraficaCard> createState() => _GraficaCardState();
+}
+
+class _GraficaCardState extends State<GraficaCard> {
+  String _filtroSeleccionado = 'Diario'; // Estado inicial del filtro
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
       decoration: BoxDecoration(
-        color: fondo,
+        color: widget.fondo,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: Colors.black.withOpacity(0.08),
+          color: Colors.black.withValues(alpha: 0.08),
         ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      titulo,
+                      widget.titulo,
                       style: TextStyle(
-                        color: textoSecundario,
+                        color: widget.textoSecundario,
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      valor,
+                      widget.valor,
                       style: TextStyle(
-                        color: texto,
+                        color: widget.texto,
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                       ),
@@ -520,20 +501,52 @@ class GraficaCard extends StatelessWidget {
                   ],
                 ),
               ),
-
+              // Selector de Filtro (Diario, Mensual, 6 Meses)
               Container(
+                height: 28,
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: _filtroSeleccionado,
+                    dropdownColor: widget.fondo,
+                    icon: Icon(Icons.keyboard_arrow_down_rounded, 
+                               color: widget.textoSecundario, size: 18),
+                    style: TextStyle(
+                      color: widget.textoSecundario,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    items: ['Diario', 'Mensual', '6 Meses'].map((String val) {
+                      return DropdownMenuItem<String>(
+                        value: val,
+                        child: Text(val),
+                      );
+                    }).toList(),
+                    onChanged: (val) {
+                      if (val != null) {
+                        setState(() {
+                          _filtroSeleccionado = val;
+                        });
+                      }
+                    },
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Container(
+                margin: const EdgeInsets.only(top: 2),
                 padding: const EdgeInsets.symmetric(
                   horizontal: 9,
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.12),
+                  color: widget.color.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
-                  porcentaje,
+                  widget.porcentaje,
                   style: TextStyle(
-                    color: color,
+                    color: widget.color,
                     fontWeight: FontWeight.bold,
                     fontSize: 11,
                   ),
@@ -541,10 +554,8 @@ class GraficaCard extends StatelessWidget {
               ),
             ],
           ),
-
           const SizedBox(height: 12),
-
-          grafica,
+          widget.grafica,
         ],
       ),
     );
@@ -554,7 +565,6 @@ class GraficaCard extends StatelessWidget {
 // =====================================================================
 // GRAFICA DE VENTAS
 // =====================================================================
-
 class VentasGraficoPainter extends CustomPainter {
   final bool oscuro;
 
@@ -571,8 +581,8 @@ class VentasGraficoPainter extends CustomPainter {
 
     final Paint gridPaint = Paint()
       ..color = oscuro
-          ? Colors.white.withOpacity(0.10)
-          : Colors.black.withOpacity(0.08)
+          ? Colors.white.withValues(alpha: 0.10)
+          : Colors.black.withValues(alpha: 0.08)
       ..strokeWidth = 1;
 
     final Paint axisPaint = Paint()
@@ -591,11 +601,8 @@ class VentasGraficoPainter extends CustomPainter {
     // ---------------------------------------------------------------
     // CUADRICULA
     // ---------------------------------------------------------------
-
     for (int i = 0; i <= 4; i++) {
-      final double y =
-          top + ((bottom - top) / 4) * i;
-
+      final double y = top + ((bottom - top) / 4) * i;
       canvas.drawLine(
         Offset(left, y),
         Offset(right, y),
@@ -604,9 +611,7 @@ class VentasGraficoPainter extends CustomPainter {
     }
 
     for (int i = 0; i <= 3; i++) {
-      final double x =
-          left + ((right - left) / 3) * i;
-
+      final double x = left + ((right - left) / 3) * i;
       canvas.drawLine(
         Offset(x, top),
         Offset(x, bottom),
@@ -617,7 +622,6 @@ class VentasGraficoPainter extends CustomPainter {
     // ---------------------------------------------------------------
     // EJE Y
     // ---------------------------------------------------------------
-
     canvas.drawLine(
       Offset(left, bottom),
       Offset(left, top),
@@ -626,18 +630,15 @@ class VentasGraficoPainter extends CustomPainter {
 
     // FLECHA DEL EJE Y
     final Path arrowY = Path();
-
     arrowY.moveTo(left, top);
     arrowY.lineTo(left - 5, top + 10);
     arrowY.moveTo(left, top);
     arrowY.lineTo(left + 5, top + 10);
-
     canvas.drawPath(arrowY, axisPaint);
 
     // ---------------------------------------------------------------
     // EJE X
     // ---------------------------------------------------------------
-
     canvas.drawLine(
       Offset(left, bottom),
       Offset(right, bottom),
@@ -646,18 +647,15 @@ class VentasGraficoPainter extends CustomPainter {
 
     // FLECHA DEL EJE X
     final Path arrowX = Path();
-
     arrowX.moveTo(right, bottom);
     arrowX.lineTo(right - 10, bottom - 5);
     arrowX.moveTo(right, bottom);
     arrowX.lineTo(right - 10, bottom + 5);
-
     canvas.drawPath(arrowX, axisPaint);
 
     // ---------------------------------------------------------------
     // DATOS
     // ---------------------------------------------------------------
-
     final List<double> datos = [
       0.35,
       0.52,
@@ -669,34 +667,23 @@ class VentasGraficoPainter extends CustomPainter {
     ];
 
     final Path path = Path();
-
     for (int i = 0; i < datos.length; i++) {
-      final double x =
-          left + ((right - left) / (datos.length - 1)) * i;
-
-      final double y =
-          bottom - ((bottom - top) * datos[i]);
-
+      final double x = left + ((right - left) / (datos.length - 1)) * i;
+      final double y = bottom - ((bottom - top) * datos[i]);
       if (i == 0) {
         path.moveTo(x, y);
       } else {
         path.lineTo(x, y);
       }
     }
-
     canvas.drawPath(path, linePaint);
 
     // ---------------------------------------------------------------
     // PUNTOS
     // ---------------------------------------------------------------
-
     for (int i = 0; i < datos.length; i++) {
-      final double x =
-          left + ((right - left) / (datos.length - 1)) * i;
-
-      final double y =
-          bottom - ((bottom - top) * datos[i]);
-
+      final double x = left + ((right - left) / (datos.length - 1)) * i;
+      final double y = bottom - ((bottom - top) * datos[i]);
       canvas.drawCircle(
         Offset(x, y),
         4,
@@ -710,21 +697,18 @@ class VentasGraficoPainter extends CustomPainter {
       Offset(left - 8, bottom + 12),
       oscuro,
     );
-
     _dibujarTexto(
       canvas,
       'Sem 2',
       Offset(left + 55, bottom + 12),
       oscuro,
     );
-
     _dibujarTexto(
       canvas,
       'Sem 3',
       Offset(left + 120, bottom + 12),
       oscuro,
     );
-
     _dibujarTexto(
       canvas,
       'Sem 4',
@@ -749,7 +733,6 @@ class VentasGraficoPainter extends CustomPainter {
       ),
       textDirection: TextDirection.ltr,
     );
-
     painter.layout();
     painter.paint(canvas, posicion);
   }
@@ -763,7 +746,6 @@ class VentasGraficoPainter extends CustomPainter {
 // =====================================================================
 // GRAFICA DE COMPRAS
 // =====================================================================
-
 class ComprasGraficoPainter extends CustomPainter {
   final bool oscuro;
 
@@ -780,8 +762,8 @@ class ComprasGraficoPainter extends CustomPainter {
 
     final Paint gridPaint = Paint()
       ..color = oscuro
-          ? Colors.white.withOpacity(0.10)
-          : Colors.black.withOpacity(0.08)
+          ? Colors.white.withValues(alpha: 0.10)
+          : Colors.black.withValues(alpha: 0.08)
       ..strokeWidth = 1;
 
     final Paint axisPaint = Paint()
@@ -797,22 +779,16 @@ class ComprasGraficoPainter extends CustomPainter {
       ..color = DashboardPage.azul;
 
     // CUADRICULA
-
     for (int i = 0; i <= 4; i++) {
-      final double y =
-          top + ((bottom - top) / 4) * i;
-
+      final double y = top + ((bottom - top) / 4) * i;
       canvas.drawLine(
         Offset(left, y),
         Offset(right, y),
         gridPaint,
       );
     }
-
     for (int i = 0; i <= 3; i++) {
-      final double x =
-          left + ((right - left) / 3) * i;
-
+      final double x = left + ((right - left) / 3) * i;
       canvas.drawLine(
         Offset(x, top),
         Offset(x, bottom),
@@ -821,47 +797,32 @@ class ComprasGraficoPainter extends CustomPainter {
     }
 
     // EJE Y
-
     canvas.drawLine(
       Offset(left, bottom),
       Offset(left, top),
       axisPaint,
     );
-
-    // FLECHA Y
-
     final Path arrowY = Path();
-
     arrowY.moveTo(left, top);
     arrowY.lineTo(left - 5, top + 10);
-
     arrowY.moveTo(left, top);
     arrowY.lineTo(left + 5, top + 10);
-
     canvas.drawPath(arrowY, axisPaint);
 
     // EJE X
-
     canvas.drawLine(
       Offset(left, bottom),
       Offset(right, bottom),
       axisPaint,
     );
-
-    // FLECHA X
-
     final Path arrowX = Path();
-
     arrowX.moveTo(right, bottom);
     arrowX.lineTo(right - 10, bottom - 5);
-
     arrowX.moveTo(right, bottom);
     arrowX.lineTo(right - 10, bottom + 5);
-
     canvas.drawPath(arrowX, axisPaint);
 
     // DATOS
-
     final List<double> datos = [
       0.25,
       0.40,
@@ -873,30 +834,20 @@ class ComprasGraficoPainter extends CustomPainter {
     ];
 
     final Path path = Path();
-
     for (int i = 0; i < datos.length; i++) {
-      final double x =
-          left + ((right - left) / (datos.length - 1)) * i;
-
-      final double y =
-          bottom - ((bottom - top) * datos[i]);
-
+      final double x = left + ((right - left) / (datos.length - 1)) * i;
+      final double y = bottom - ((bottom - top) * datos[i]);
       if (i == 0) {
         path.moveTo(x, y);
       } else {
         path.lineTo(x, y);
       }
     }
-
     canvas.drawPath(path, linePaint);
 
     for (int i = 0; i < datos.length; i++) {
-      final double x =
-          left + ((right - left) / (datos.length - 1)) * i;
-
-      final double y =
-          bottom - ((bottom - top) * datos[i]);
-
+      final double x = left + ((right - left) / (datos.length - 1)) * i;
+      final double y = bottom - ((bottom - top) * datos[i]);
       canvas.drawCircle(
         Offset(x, y),
         4,
@@ -926,7 +877,6 @@ class ComprasGraficoPainter extends CustomPainter {
       ),
       textDirection: TextDirection.ltr,
     );
-
     painter.layout();
     painter.paint(canvas, Offset(x, y));
   }
@@ -940,7 +890,6 @@ class ComprasGraficoPainter extends CustomPainter {
 // =====================================================================
 // GRAFICA REGISTROS DIARIOS
 // =====================================================================
-
 class RegistrosGraficoPainter extends CustomPainter {
   final bool oscuro;
 
@@ -957,8 +906,8 @@ class RegistrosGraficoPainter extends CustomPainter {
 
     final Paint gridPaint = Paint()
       ..color = oscuro
-          ? Colors.white.withOpacity(0.10)
-          : Colors.black.withOpacity(0.08)
+          ? Colors.white.withValues(alpha: 0.10)
+          : Colors.black.withValues(alpha: 0.08)
       ..strokeWidth = 1;
 
     final Paint axisPaint = Paint()
@@ -969,11 +918,8 @@ class RegistrosGraficoPainter extends CustomPainter {
       ..color = DashboardPage.morado;
 
     // CUADRICULA
-
     for (int i = 0; i <= 4; i++) {
-      final double y =
-          top + ((bottom - top) / 4) * i;
-
+      final double y = top + ((bottom - top) / 4) * i;
       canvas.drawLine(
         Offset(left, y),
         Offset(right, y),
@@ -982,47 +928,32 @@ class RegistrosGraficoPainter extends CustomPainter {
     }
 
     // EJE Y
-
     canvas.drawLine(
       Offset(left, bottom),
       Offset(left, top),
       axisPaint,
     );
-
-    // FLECHA Y
-
     final Path arrowY = Path();
-
     arrowY.moveTo(left, top);
     arrowY.lineTo(left - 5, top + 10);
-
     arrowY.moveTo(left, top);
     arrowY.lineTo(left + 5, top + 10);
-
     canvas.drawPath(arrowY, axisPaint);
 
     // EJE X
-
     canvas.drawLine(
       Offset(left, bottom),
       Offset(right, bottom),
       axisPaint,
     );
-
-    // FLECHA X
-
     final Path arrowX = Path();
-
     arrowX.moveTo(right, bottom);
     arrowX.lineTo(right - 10, bottom - 5);
-
     arrowX.moveTo(right, bottom);
     arrowX.lineTo(right - 10, bottom + 5);
-
     canvas.drawPath(arrowX, axisPaint);
 
     // BARRAS
-
     final List<double> datos = [
       0.35,
       0.55,
@@ -1043,26 +974,16 @@ class RegistrosGraficoPainter extends CustomPainter {
       'Dom',
     ];
 
-    final double anchoDisponible =
-        right - left;
-
-    final double anchoBarra =
-        anchoDisponible / datos.length * 0.55;
+    final double anchoDisponible = right - left;
+    final double anchoBarra = anchoDisponible / datos.length * 0.55;
 
     for (int i = 0; i < datos.length; i++) {
-      final double centro =
-          left +
+      final double centro = left +
           (anchoDisponible / datos.length) * i +
           (anchoDisponible / datos.length) / 2;
-
-      final double altura =
-          (bottom - top) * datos[i];
-
-      final double x =
-          centro - anchoBarra / 2;
-
-      final double y =
-          bottom - altura;
+      final double altura = (bottom - top) * datos[i];
+      final double x = centro - anchoBarra / 2;
+      final double y = bottom - altura;
 
       final Rect rect = Rect.fromLTWH(
         x,
@@ -1104,7 +1025,6 @@ class RegistrosGraficoPainter extends CustomPainter {
       ),
       textDirection: TextDirection.ltr,
     );
-
     painter.layout();
     painter.paint(canvas, Offset(x, y));
   }
@@ -1116,9 +1036,8 @@ class RegistrosGraficoPainter extends CustomPainter {
 }
 
 // =====================================================================
-// GRAFICA INSUMOS
+// GRAFICA INSUMOS (Modificada para alinear texto a la derecha)
 // =====================================================================
-
 class InsumosGraficoPainter extends CustomPainter {
   final bool oscuro;
 
@@ -1128,17 +1047,17 @@ class InsumosGraficoPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    // CENTRO DE LA GRÁFICA CORRIDO A LA IZQUIERDA (0.35 del ancho en vez de 0.5)
     final Offset centro = Offset(
-      size.width / 2,
-      size.height / 2 - 5,
+      size.width * 0.35,
+      size.height / 2,
     );
-
     final double radio = 65;
 
     final Paint fondoPaint = Paint()
       ..color = oscuro
-          ? Colors.white.withOpacity(0.08)
-          : Colors.black.withOpacity(0.08)
+          ? Colors.white.withValues(alpha: 0.08)
+          : Colors.black.withValues(alpha: 0.08)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 24;
 
@@ -1154,7 +1073,6 @@ class InsumosGraficoPainter extends CustomPainter {
       20,
       20,
     ];
-
     final List<Color> colores = [
       DashboardPage.dorado,
       DashboardPage.azul,
@@ -1163,11 +1081,8 @@ class InsumosGraficoPainter extends CustomPainter {
     ];
 
     double inicio = -1.5708;
-
     for (int i = 0; i < valores.length; i++) {
-      final double barrido =
-          (valores[i] / 100) * 6.28318;
-
+      final double barrido = (valores[i] / 100) * 6.28318;
       final Paint paint = Paint()
         ..color = colores[i]
         ..style = PaintingStyle.stroke
@@ -1184,16 +1099,12 @@ class InsumosGraficoPainter extends CustomPainter {
         false,
         paint,
       );
-
       inicio += barrido;
     }
 
     // CENTRO
-
     final Paint centroPaint = Paint()
-      ..color = oscuro
-          ? const Color(0xFF1E1E1E)
-          : Colors.white;
+      ..color = oscuro ? const Color(0xFF1E1E1E) : Colors.white;
 
     canvas.drawCircle(
       centro,
@@ -1208,46 +1119,14 @@ class InsumosGraficoPainter extends CustomPainter {
       oscuro,
     );
 
-    // LEYENDA
+    // LEYENDA (Vertical a la derecha)
+    final double leyendaX = size.width * 0.70;
+    final double startY = (size.height / 2) - 40;
 
-    final double leyendaY =
-        size.height - 48;
-
-    _leyenda(
-      canvas,
-      'Hilos',
-      DashboardPage.dorado,
-      10,
-      leyendaY,
-      oscuro,
-    );
-
-    _leyenda(
-      canvas,
-      'Botones',
-      DashboardPage.azul,
-      95,
-      leyendaY,
-      oscuro,
-    );
-
-    _leyenda(
-      canvas,
-      'Cierres',
-      DashboardPage.verde,
-      190,
-      leyendaY,
-      oscuro,
-    );
-
-    _leyenda(
-      canvas,
-      'Telas',
-      DashboardPage.naranja,
-      280,
-      leyendaY,
-      oscuro,
-    );
+    _leyenda(canvas, 'Hilos', DashboardPage.dorado, leyendaX, startY, oscuro);
+    _leyenda(canvas, 'Botones', DashboardPage.azul, leyendaX, startY + 25, oscuro);
+    _leyenda(canvas, 'Cierres', DashboardPage.verde, leyendaX, startY + 50, oscuro);
+    _leyenda(canvas, 'Telas', DashboardPage.naranja, leyendaX, startY + 75, oscuro);
   }
 
   void _textoCentro(
@@ -1267,9 +1146,7 @@ class InsumosGraficoPainter extends CustomPainter {
       ),
       textDirection: TextDirection.ltr,
     );
-
     painter.layout();
-
     painter.paint(
       canvas,
       Offset(
@@ -1289,29 +1166,29 @@ class InsumosGraficoPainter extends CustomPainter {
   ) {
     final Paint punto = Paint()
       ..color = color;
-
+    
+    // Dibujar el punto
     canvas.drawCircle(
       Offset(x, y + 5),
       5,
       punto,
     );
-
+    
+    // Dibujar el texto al lado del punto
     final TextPainter painter = TextPainter(
       text: TextSpan(
         text: texto,
         style: TextStyle(
           color: oscuro ? Colors.white70 : Colors.black54,
-          fontSize: 10,
+          fontSize: 12,
         ),
       ),
       textDirection: TextDirection.ltr,
     );
-
     painter.layout();
-
     painter.paint(
       canvas,
-      Offset(x + 9, y - 1),
+      Offset(x + 12, y - 2), // Separado a la derecha del punto
     );
   }
 
@@ -1324,7 +1201,6 @@ class InsumosGraficoPainter extends CustomPainter {
 // =====================================================================
 // ULTIMAS VENTAS
 // =====================================================================
-
 class UltimasVentasMobileCard extends StatelessWidget {
   final Color fondo;
   final Color texto;
@@ -1386,9 +1262,7 @@ class UltimasVentasMobileCard extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-
           const SizedBox(height: 14),
-
           ...ventas.map(
             (venta) => Padding(
               padding: const EdgeInsets.only(bottom: 10),
@@ -1398,7 +1272,7 @@ class UltimasVentasMobileCard extends StatelessWidget {
                     width: 42,
                     height: 42,
                     decoration: BoxDecoration(
-                      color: DashboardPage.dorado.withOpacity(0.12),
+                      color: DashboardPage.dorado.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: const Icon(
@@ -1407,13 +1281,10 @@ class UltimasVentasMobileCard extends StatelessWidget {
                       size: 20,
                     ),
                   ),
-
                   const SizedBox(width: 10),
-
                   Expanded(
                     child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           venta.cliente,
@@ -1434,7 +1305,6 @@ class UltimasVentasMobileCard extends StatelessWidget {
                       ],
                     ),
                   ),
-
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -1472,7 +1342,6 @@ class UltimasVentasMobileCard extends StatelessWidget {
 // =====================================================================
 // MODELO VENTA
 // =====================================================================
-
 class VentaItem {
   final String cliente;
   final String producto;
