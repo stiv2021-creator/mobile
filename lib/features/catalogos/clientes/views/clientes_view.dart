@@ -38,7 +38,55 @@ class Cliente {
 }
 
 // ============================================================
-// CLIENTES VIEW (ESTRUCTURA IDÉNTICA A INSUMOS)
+// COMPONENTE HOVER ACTION BUTTON
+// ============================================================
+class _HoverActionButton extends StatefulWidget {
+  final IconData icon;
+  final Color doradoColor;
+  final VoidCallback onTap;
+
+  const _HoverActionButton({
+    required this.icon,
+    required this.doradoColor,
+    required this.onTap,
+  });
+
+  @override
+  State<_HoverActionButton> createState() => _HoverActionButtonState();
+}
+
+class _HoverActionButtonState extends State<_HoverActionButton> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            color: _isHovered
+                ? widget.doradoColor.withValues(alpha: 0.15)
+                : Colors.transparent,
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            widget.icon,
+            size: 18,
+            color: widget.doradoColor,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ============================================================
+// CLIENTES VIEW
 // ============================================================
 class ClientesView extends StatefulWidget {
   const ClientesView({super.key});
@@ -98,9 +146,8 @@ class _ClientesViewState extends State<ClientesView> {
   @override
   Widget build(BuildContext context) {
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor = isDarkMode
-        ? const Color(0xFF121212)
-        : const Color(0xFFF8F9FA);
+    final backgroundColor =
+        isDarkMode ? const Color(0xFF121212) : const Color(0xFFF8F9FA);
     final cardColor = isDarkMode ? const Color(0xFF1E1E1E) : Colors.white;
     final textColor = isDarkMode ? Colors.white : Colors.black87;
     final subTextColor = isDarkMode ? Colors.grey[400]! : Colors.grey[600]!;
@@ -117,9 +164,7 @@ class _ClientesViewState extends State<ClientesView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ==================================================
               // ENCABEZADO SUPERIOR
-              // ==================================================
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -155,13 +200,16 @@ class _ClientesViewState extends State<ClientesView> {
                       ),
                     ),
                     onPressed: () {
-                      _mostrarModalAgregar(context, isDarkMode, doradoColor, (
-                        nuevoCliente,
-                      ) {
-                        setState(() {
-                          _clientes.insert(0, nuevoCliente);
-                        });
-                      });
+                      _mostrarModalAgregar(
+                        context,
+                        isDarkMode,
+                        doradoColor,
+                        (nuevoCliente) {
+                          setState(() {
+                            _clientes.insert(0, nuevoCliente);
+                          });
+                        },
+                      );
                     },
                     icon: const Icon(Icons.add, size: 18),
                     label: const Text(
@@ -172,15 +220,12 @@ class _ClientesViewState extends State<ClientesView> {
                 ],
               ),
               const SizedBox(height: 16),
-
-              // ==================================================
               // BUSCADOR
-              // ==================================================
               TextField(
                 onChanged: (value) => setState(() => _busqueda = value),
                 style: TextStyle(color: textColor, fontSize: 13),
                 decoration: InputDecoration(
-                  hintText: 'Buscar por nombre, identificación o correo...',
+                  hintText: 'Buscar por nombre, NIT, dirección o correo...',
                   hintStyle: TextStyle(color: subTextColor, fontSize: 13),
                   prefixIcon: Icon(Icons.search, color: subTextColor),
                   suffixIcon: _busqueda.isNotEmpty
@@ -205,10 +250,7 @@ class _ClientesViewState extends State<ClientesView> {
                 ),
               ),
               const SizedBox(height: 16),
-
-              // ==================================================
               // LISTA DE TARJETAS
-              // ==================================================
               Expanded(
                 child: _clientesFiltrados.isEmpty
                     ? _sinResultados(subTextColor, doradoColor)
@@ -226,9 +268,8 @@ class _ClientesViewState extends State<ClientesView> {
                             isDarkMode: isDarkMode,
                             onEstadoChanged: (nuevoEstado) {
                               setState(() {
-                                item.estado = nuevoEstado
-                                    ? 'ACTIVO'
-                                    : 'INACTIVO';
+                                item.estado =
+                                    nuevoEstado ? 'ACTIVO' : 'INACTIVO';
                               });
                             },
                             onEditPressed: () {
@@ -280,7 +321,6 @@ class _ClientesViewState extends State<ClientesView> {
     required VoidCallback onDeletePressed,
   }) {
     final bool activo = item.estado == 'ACTIVO';
-
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
@@ -298,7 +338,6 @@ class _ClientesViewState extends State<ClientesView> {
       ),
       child: Column(
         children: [
-          // Fila 1: Badge ID + Badge Estado
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -343,8 +382,6 @@ class _ClientesViewState extends State<ClientesView> {
             ],
           ),
           const SizedBox(height: 12),
-
-          // Fila 2: Ícono circular + Nombre + C.C.
           Row(
             children: [
               Container(
@@ -355,7 +392,7 @@ class _ClientesViewState extends State<ClientesView> {
                   color: circleBackgroundColor,
                 ),
                 child: Icon(
-                  Icons.person_outline_rounded,
+                  Icons.business_center_outlined,
                   color: doradoColor,
                   size: 24,
                 ),
@@ -375,7 +412,7 @@ class _ClientesViewState extends State<ClientesView> {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      'CC · ${item.identificacion}',
+                      'NIT / C.C. · ${item.identificacion}',
                       style: TextStyle(fontSize: 12, color: subTextColor),
                     ),
                   ],
@@ -384,8 +421,6 @@ class _ClientesViewState extends State<ClientesView> {
             ],
           ),
           const SizedBox(height: 14),
-
-          // Fila 3: Información detallada (Dirección, Correo, Teléfono)
           _buildInfoRow(
             Icons.location_on_outlined,
             item.direccion,
@@ -398,9 +433,8 @@ class _ClientesViewState extends State<ClientesView> {
             item.correo,
             subTextColor,
             doradoColor,
-            textColorCustom: isDarkMode
-                ? const Color(0xFF64B5F6)
-                : const Color(0xFF4285D4),
+            textColorCustom:
+                isDarkMode ? const Color(0xFF64B5F6) : const Color(0xFF4285D4),
           ),
           const SizedBox(height: 6),
           _buildInfoRow(
@@ -409,15 +443,12 @@ class _ClientesViewState extends State<ClientesView> {
             subTextColor,
             doradoColor,
           ),
-
           const SizedBox(height: 14),
           Divider(
             height: 1,
             color: isDarkMode ? Colors.grey[800] : Colors.black12,
           ),
           const SizedBox(height: 10),
-
-          // Fila 4: Acciones inferiores (Dropdown de estado + Botones de Editar/Eliminar)
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -503,8 +534,6 @@ class _ClientesViewState extends State<ClientesView> {
                   ),
                 ),
               ),
-
-              // Botones de acción con el mismo efecto hover
               Row(
                 children: [
                   _HoverActionButton(
@@ -540,7 +569,7 @@ class _ClientesViewState extends State<ClientesView> {
         const SizedBox(width: 8),
         Expanded(
           child: Text(
-            text,
+            text.isEmpty ? 'N/A' : text,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -586,6 +615,45 @@ class _ClientesViewState extends State<ClientesView> {
   }
 
   // ============================================================
+  // HELPERS DE ESTILO DE MODALES
+  // ============================================================
+  Widget _buildLabelModal(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4.0),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.bold,
+          color: Colors.grey,
+        ),
+      ),
+    );
+  }
+
+  InputDecoration _inputDecorationModal(
+    String hint,
+    Color bg,
+    Color focusBorderColor,
+  ) {
+    return InputDecoration(
+      hintText: hint,
+      hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
+      filled: true,
+      fillColor: bg,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: BorderSide.none,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: BorderSide(color: focusBorderColor, width: 1.5),
+      ),
+    );
+  }
+
+  // ============================================================
   // MODAL AGREGAR CLIENTE
   // ============================================================
   void _mostrarModalAgregar(
@@ -603,9 +671,8 @@ class _ClientesViewState extends State<ClientesView> {
 
     final dialogBg = isDarkMode ? const Color(0xFF1E1E1E) : Colors.white;
     final textColor = isDarkMode ? Colors.white : Colors.black87;
-    final inputBg = isDarkMode
-        ? const Color(0xFF2D2D2D)
-        : const Color(0xFFF1F3F5);
+    final inputBg =
+        isDarkMode ? const Color(0xFF2D2D2D) : const Color(0xFFF1F3F5);
 
     showDialog(
       context: context,
@@ -621,7 +688,7 @@ class _ClientesViewState extends State<ClientesView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Agregar Cliente',
+                    'Nuevo Cliente',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -635,24 +702,52 @@ class _ClientesViewState extends State<ClientesView> {
                 ],
               ),
               content: SizedBox(
-                width: 400,
+                width: 450,
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      _buildLabelModal('NOMBRE COMPLETO *'),
-                      TextField(
-                        controller: nombreController,
-                        style: TextStyle(color: textColor, fontSize: 14),
-                        decoration: _inputDecorationModal(
-                          'Ej: QueNOTA',
-                          inputBg,
-                          doradoColor,
-                        ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildLabelModal('ID (AUTO)'),
+                                TextField(
+                                  enabled: false,
+                                  decoration: _inputDecorationModal(
+                                    '00-${_clientes.length + 1}',
+                                    inputBg,
+                                    doradoColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildLabelModal('NOMBRE *'),
+                                TextField(
+                                  controller: nombreController,
+                                  style: TextStyle(color: textColor, fontSize: 14),
+                                  decoration: _inputDecorationModal(
+                                    'Nombre del cliente',
+                                    inputBg,
+                                    doradoColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 12),
-                      _buildLabelModal('IDENTIFICACIÓN (NIT / C.C.) *'),
+                      _buildLabelModal('IDENTIFICACIÓN *'),
                       TextField(
                         controller: identificacionController,
                         keyboardType: TextInputType.number,
@@ -712,7 +807,7 @@ class _ClientesViewState extends State<ClientesView> {
                                     fontSize: 14,
                                   ),
                                   decoration: _inputDecorationModal(
-                                    '3000000000',
+                                    '300 000 0000',
                                     inputBg,
                                     doradoColor,
                                   ),
@@ -837,7 +932,7 @@ class _ClientesViewState extends State<ClientesView> {
   }
 
   // ============================================================
-  // MODAL EDITAR CLIENTE
+  // MODAL EDITAR CLIENTE (Actualizado con los nuevos campos solicitados)
   // ============================================================
   void _mostrarModalEditar(
     BuildContext context,
@@ -859,9 +954,8 @@ class _ClientesViewState extends State<ClientesView> {
 
     final dialogBg = isDarkMode ? const Color(0xFF1E1E1E) : Colors.white;
     final textColor = isDarkMode ? Colors.white : Colors.black87;
-    final inputBg = isDarkMode
-        ? const Color(0xFF2D2D2D)
-        : const Color(0xFFF1F3F5);
+    final inputBg =
+        isDarkMode ? const Color(0xFF2D2D2D) : const Color(0xFFF1F3F5);
 
     showDialog(
       context: context,
@@ -891,24 +985,55 @@ class _ClientesViewState extends State<ClientesView> {
                 ],
               ),
               content: SizedBox(
-                width: 400,
+                width: 450,
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      _buildLabelModal('NOMBRE COMPLETO *'),
-                      TextField(
-                        controller: nombreController,
-                        style: TextStyle(color: textColor, fontSize: 14),
-                        decoration: _inputDecorationModal(
-                          '',
-                          inputBg,
-                          doradoColor,
-                        ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildLabelModal('ID (AUTO)'),
+                                TextField(
+                                  enabled: false,
+                                  decoration: _inputDecorationModal(
+                                    itemActual.id,
+                                    inputBg,
+                                    doradoColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildLabelModal('NOMBRE'),
+                                TextField(
+                                  controller: nombreController,
+                                  style: TextStyle(
+                                    color: textColor,
+                                    fontSize: 14,
+                                  ),
+                                  decoration: _inputDecorationModal(
+                                    '',
+                                    inputBg,
+                                    doradoColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 12),
-                      _buildLabelModal('IDENTIFICACIÓN *'),
+                      _buildLabelModal('IDENTIFICACIÓN'),
                       TextField(
                         controller: identificacionController,
                         keyboardType: TextInputType.number,
@@ -979,7 +1104,7 @@ class _ClientesViewState extends State<ClientesView> {
                         ],
                       ),
                       const SizedBox(height: 12),
-                      _buildLabelModal('ESTADO *'),
+                      _buildLabelModal('ESTADO'),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         decoration: BoxDecoration(
@@ -993,20 +1118,14 @@ class _ClientesViewState extends State<ClientesView> {
                             isExpanded: true,
                             dropdownColor: dialogBg,
                             style: TextStyle(color: textColor, fontSize: 13),
-                            items: [
+                            items: const [
                               DropdownMenuItem(
                                 value: true,
-                                child: Text(
-                                  'Activo',
-                                  style: TextStyle(color: textColor),
-                                ),
+                                child: Text('Activo'),
                               ),
                               DropdownMenuItem(
                                 value: false,
-                                child: Text(
-                                  'Inactivo',
-                                  style: TextStyle(color: textColor),
-                                ),
+                                child: Text('Inactivo'),
                               ),
                             ],
                             onChanged: (val) =>
@@ -1053,6 +1172,17 @@ class _ClientesViewState extends State<ClientesView> {
                           ),
                         ),
                         onPressed: () {
+                          if (nombreController.text.isEmpty ||
+                              identificacionController.text.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Completa los campos obligatorios (*)',
+                                ),
+                              ),
+                            );
+                            return;
+                          }
                           final actualizado = Cliente(
                             id: itemActual.id,
                             nombre: nombreController.text,
@@ -1066,7 +1196,7 @@ class _ClientesViewState extends State<ClientesView> {
                           Navigator.pop(context);
                         },
                         child: const Text(
-                          'Guardar cambios',
+                          'Guardar',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -1082,147 +1212,131 @@ class _ClientesViewState extends State<ClientesView> {
   }
 
   // ============================================================
-  // CONFIRMAR ELIMINAR CLIENTE
+  // DIÁLOGO CONFIRMAR ELIMINAR (Rediseñado según la imagen de referencia)
   // ============================================================
   void _confirmarEliminar(
     BuildContext context,
-    Cliente cliente,
+    Cliente item,
     bool isDarkMode,
     Color textColor,
   ) {
+    final dialogBg = isDarkMode ? const Color(0xFF1E1E1E) : Colors.white;
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: isDarkMode ? const Color(0xFF1E1E1E) : Colors.white,
+          backgroundColor: dialogBg,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          title: Text(
-            'Eliminar cliente',
-            style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
-          ),
-          content: Text(
-            '¿Deseas eliminar a ${cliente.nombre} permanentemente?',
-            style: TextStyle(color: textColor),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text(
-                'Cancelar',
-                style: TextStyle(color: Colors.grey),
-              ),
+          contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
+          content: SizedBox(
+            width: 380,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Círculo con ícono de advertencia rojo
+                Container(
+                  width: 64,
+                  height: 64,
+                  decoration: BoxDecoration(
+                    color: Colors.red.withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.error_outline_rounded,
+                    color: Colors.red,
+                    size: 32,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Título
+                Text(
+                  '¿Eliminar cliente?',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Contenedor de aviso
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.red.withValues(alpha: 0.08),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colors.red.withValues(alpha: 0.2),
+                    ),
+                  ),
+                  child: const Text(
+                    'Esta acción eliminará el registro del cliente de forma permanente.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                // Botones de acción inferior
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          backgroundColor: isDarkMode
+                              ? const Color(0xFF2A2A2A)
+                              : const Color(0xFFEFEFEF),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          side: BorderSide.none,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                        child: Text(
+                          'Cancelar',
+                          style: TextStyle(
+                            color: textColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFE53935),
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _clientes.remove(item);
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: const Text(
+                          'Sí, eliminar',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.redAccent,
-                foregroundColor: Colors.white,
-                elevation: 0,
-              ),
-              onPressed: () {
-                setState(() {
-                  _clientes.removeWhere((item) => item.id == cliente.id);
-                });
-                Navigator.pop(context);
-              },
-              child: const Text('Eliminar'),
-            ),
-          ],
+          ),
         );
       },
-    );
-  }
-
-  Widget _buildLabelModal(String text) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 6.0),
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontSize: 11,
-          fontWeight: FontWeight.bold,
-          color: Colors.grey,
-        ),
-      ),
-    );
-  }
-
-  InputDecoration _inputDecorationModal(
-    String hint,
-    Color inputBg,
-    Color doradoColor,
-  ) {
-    return InputDecoration(
-      hintText: hint.isNotEmpty ? hint : null,
-      hintStyle: const TextStyle(fontSize: 12, color: Colors.grey),
-      filled: true,
-      fillColor: inputBg,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide.none,
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(color: doradoColor, width: 1.5),
-      ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-    );
-  }
-}
-
-// ============================================================
-// WIDGET AUXILIAR BOTOŃ CON HOVER DORADO
-// ============================================================
-class _HoverActionButton extends StatefulWidget {
-  final IconData icon;
-  final Color doradoColor;
-  final VoidCallback onTap;
-
-  const _HoverActionButton({
-    required this.icon,
-    required this.doradoColor,
-    required this.onTap,
-  });
-
-  @override
-  State<_HoverActionButton> createState() => _HoverActionButtonState();
-}
-
-class _HoverActionButtonState extends State<_HoverActionButton> {
-  bool _isHovered = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          width: 36,
-          height: 36,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: _isHovered
-                ? widget.doradoColor.withValues(alpha: 0.15)
-                : Colors.transparent,
-            border: Border.all(
-              color: _isHovered
-                  ? widget.doradoColor
-                  : Colors.grey.withValues(alpha: 0.3),
-              width: _isHovered ? 1.5 : 1,
-            ),
-          ),
-          child: Icon(
-            widget.icon,
-            size: 18,
-            color: _isHovered ? widget.doradoColor : Colors.grey[700],
-          ),
-        ),
-      ),
     );
   }
 }
