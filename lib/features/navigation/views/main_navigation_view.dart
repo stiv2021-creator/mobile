@@ -49,6 +49,22 @@ class _MainNavigationViewState extends State<MainNavigationView> {
     });
   }
 
+  // Método para sincronizar el índice real de la app con el índice visual de la barra inferior
+  int _getBottomNavIndex() {
+    switch (_currentIndex) {
+      case 0:
+        return 0; // Inicio
+      case 6:
+        return 1; // Stock (Insumos)
+      case 1:
+        return 2; // Clientes
+      case 5:
+        return 3; // Ventas
+      default:
+        return 0; // Por defecto o si está en otra sección del menú lateral
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
@@ -295,25 +311,24 @@ class _MainNavigationViewState extends State<MainNavigationView> {
           color: backgroundColor,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
+              color: Colors.black.withOpacity(0.1),
               blurRadius: 4,
               offset: const Offset(0, -2),
             ),
           ],
         ),
         child: BottomNavigationBar(
-          currentIndex: _currentIndex > 3 ? 0 : _currentIndex,
+          currentIndex: _getBottomNavIndex(),
           onTap: (index) {
             if (index == 4) {
-              _scaffoldKey.currentState
-                  ?.openEndDrawer(); // Abre el menú lateral
+              _scaffoldKey.currentState?.openEndDrawer(); // Abre el menú lateral
             } else {
-              if (index == 0) setState(() => _currentIndex = 0); // Inicio
-              if (index == 1) {
-                setState(() => _currentIndex = 6); // Stock (Insumos)
-              }
-              if (index == 2) setState(() => _currentIndex = 1); // Clientes
-              if (index == 3) setState(() => _currentIndex = 5); // Ventas
+              setState(() {
+                if (index == 0) _currentIndex = 0; // Inicio
+                if (index == 1) _currentIndex = 6; // Stock (Insumos)
+                if (index == 2) _currentIndex = 1; // Clientes
+                if (index == 3) _currentIndex = 5; // Ventas
+              });
             }
           },
           type: BottomNavigationBarType.fixed,
@@ -393,7 +408,7 @@ class _MainNavigationViewState extends State<MainNavigationView> {
           fontSize: 13,
         ),
       ),
-      tileColor: isSelected ? const Color(0xFFD4AF37).withValues(alpha: 0.15) : null,
+      tileColor: isSelected ? const Color(0xFFD4AF37).withOpacity(0.15) : null,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       onTap: onTap,
     );
