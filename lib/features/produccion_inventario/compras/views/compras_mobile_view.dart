@@ -21,7 +21,6 @@ class CompraMasterMock {
   String idProveedor;
   String fecha;
   String descripcion;
-  String estado; // Pendiente, Recibida, En tránsito, Cancelada
   final List<DetalleCompraMock> detalles;
 
   CompraMasterMock({
@@ -29,7 +28,6 @@ class CompraMasterMock {
     required this.idProveedor,
     required this.fecha,
     required this.descripcion,
-    required this.estado,
     required this.detalles,
   });
 
@@ -47,13 +45,27 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
   final TextEditingController _searchController = TextEditingController();
   String _filtroBusqueda = '';
 
+  // --- MOCKS DE LISTADOS (PROVEEDORES E INSUMOS) ---
+  final List<Map<String, String>> _proveedores = [
+    {'id': 'PROV-001', 'nombre': 'TextilsCOL'},
+    {'id': 'PROV-002', 'nombre': 'Botones y Herrajes SAS'},
+    {'id': 'PROV-003', 'nombre': 'Telas e Insumos del Centro'},
+    {'id': 'PROV-004', 'nombre': 'Hilos Medellín'},
+  ];
+
+  final List<Map<String, String>> _insumosDisponibles = [
+    {'id': 'INS-001', 'nombre': 'Hilo'},
+    {'id': 'INS-002', 'nombre': 'Botones Metálicos'},
+    {'id': 'INS-003', 'nombre': 'Marquillas'},
+    {'id': 'INS-004', 'nombre': 'Cremallera 20cm'},
+  ];
+
   final List<CompraMasterMock> _compras = [
     CompraMasterMock(
       idCompra: 'COM-001',
       idProveedor: 'PROV-001',
       fecha: '2026-05-22',
       descripcion: 'Compra de hilos y marquillas',
-      estado: 'Recibida',
       detalles: [
         DetalleCompraMock(idDetalle: 'DC-001', nombreInsumo: 'Hilo', cantidad: 50, valorUnitario: 4000),
         DetalleCompraMock(idDetalle: 'DC-002', nombreInsumo: 'Marquillas', cantidad: 12, valorUnitario: 8000),
@@ -64,68 +76,8 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
       idProveedor: 'PROV-002',
       fecha: '2026-05-20',
       descripcion: 'Compra de botones metálicos',
-      estado: 'Pendiente',
       detalles: [
         DetalleCompraMock(idDetalle: 'DC-001', nombreInsumo: 'Botones Metálicos', cantidad: 60, valorUnitario: 6000),
-      ],
-    ),
-    CompraMasterMock(
-      idCompra: 'COM-003',
-      idProveedor: 'PROV-001',
-      fecha: '2026-05-24',
-      descripcion: 'Compra general de insumos textiles',
-      estado: 'En tránsito',
-      detalles: [],
-    ),
-    CompraMasterMock(
-      idCompra: 'COM-004',
-      idProveedor: 'PROV-003',
-      fecha: '2026-05-18',
-      descripcion: 'Adquisición de cierres y cremalleras',
-      estado: 'Recibida',
-      detalles: [
-        DetalleCompraMock(idDetalle: 'DC-001', nombreInsumo: 'Cremallera 20cm', cantidad: 100, valorUnitario: 2500),
-      ],
-    ),
-    CompraMasterMock(
-      idCompra: 'COM-005',
-      idProveedor: 'PROV-002',
-      fecha: '2026-05-15',
-      descripcion: 'Rollos de tela lino',
-      estado: 'Cancelada',
-      detalles: [
-        DetalleCompraMock(idDetalle: 'DC-001', nombreInsumo: 'Tela Lino Blanco', cantidad: 30, valorUnitario: 25000),
-      ],
-    ),
-    CompraMasterMock(
-      idCompra: 'COM-006',
-      idProveedor: 'PROV-004',
-      fecha: '2026-05-14',
-      descripcion: 'Insumos de empaque y etiquetas',
-      estado: 'Recibida',
-      detalles: [
-        DetalleCompraMock(idDetalle: 'DC-001', nombreInsumo: 'Bolsas Ecológicas', cantidad: 200, valorUnitario: 1200),
-        DetalleCompraMock(idDetalle: 'DC-002', nombreInsumo: 'Etiquetas de cartón', cantidad: 500, valorUnitario: 300),
-      ],
-    ),
-    CompraMasterMock(
-      idCompra: 'COM-007',
-      idProveedor: 'PROV-001',
-      fecha: '2026-05-10',
-      descripcion: 'Compra urgente de agujas industriales',
-      estado: 'Pendiente',
-      detalles: [
-        DetalleCompraMock(idDetalle: 'DC-001', nombreInsumo: 'Agujas DBx1 #14', cantidad: 10, valorUnitario: 15000),
-      ],
-    ),
-    CompraMasterMock(
-      idCompra: 'COM-008',
-      idProveedor: 'PROV-005',
-      fecha: '2026-05-08',
-      descripcion: 'Elásticos y cintas decorativas',
-      estado: 'Recibida',
-      detalles: [
-        DetalleCompraMock(idDetalle: 'DC-001', nombreInsumo: 'Elástico de 1 pulgada', cantidad: 40, valorUnitario: 5000),
       ],
     ),
   ];
@@ -181,7 +133,7 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
         backgroundColor: cardBg,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: BorderSide(color: goldColor.withOpacity(0.3)), // <--- CORREGIDO AQUÍ
+          side: BorderSide(color: goldColor.withOpacity(0.3)), 
         ),
         title: Text(
           titulo,
@@ -325,16 +277,8 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
     Color subtleColor,
     Color goldColor,
   ) {
-    Color estadoColor;
-    if (compra.estado == 'Recibida') {
-      estadoColor = const Color(0xFF28A745);
-    } else if (compra.estado == 'Pendiente') {
-      estadoColor = const Color(0xFFFFC107);
-    } else if (compra.estado == 'En tránsito') {
-      estadoColor = const Color(0xFFFD7E14);
-    } else {
-      estadoColor = const Color(0xFFDC3545);
-    }
+    final provInfo = _proveedores.where((p) => p['id'] == compra.idProveedor).firstOrNull;
+    final nombreProv = provInfo != null ? provInfo['nombre'] : compra.idProveedor;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
@@ -433,9 +377,12 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Proveedor: ${compra.idProveedor}',
-                      style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w700, fontSize: 13, color: textColor),
+                    Expanded(
+                      child: Text(
+                        'Proveedor: $nombreProv',
+                        style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w700, fontSize: 13, color: textColor),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                     Text(
                       compra.fecha,
@@ -450,19 +397,8 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
                 ),
                 const SizedBox(height: 10),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: estadoColor.withOpacity(0.12),
-                        borderRadius: BorderRadius.circular(99),
-                      ),
-                      child: Text(
-                        compra.estado.toUpperCase(),
-                        style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w700, fontSize: 9, color: estadoColor),
-                      ),
-                    ),
                     Text(
                       compra.detalles.isEmpty ? '—' : '\$${compra.total.toStringAsFixed(0)}',
                       style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w800, fontSize: 15, color: goldColor),
@@ -482,26 +418,11 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'DETALLE_COMPRA — ${compra.idCompra}',
-                        style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w800, fontSize: 11, color: goldColor, letterSpacing: 0.5),
-                      ),
-                      TextButton.icon(
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          minimumSize: const Size(50, 30),
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        ),
-                        onPressed: () => _mostrarModalAgregarDetalle(context, compra),
-                        icon: Icon(Icons.add_circle_outline, size: 14, color: goldColor),
-                        label: Text('Agregar Ítem', style: TextStyle(fontFamily: 'Montserrat', fontSize: 11, fontWeight: FontWeight.w700, color: goldColor)),
-                      ),
-                    ],
+                  Text(
+                    'DETALLE_COMPRA — ${compra.idCompra}',
+                    style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w800, fontSize: 11, color: goldColor, letterSpacing: 0.5),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
                   if (compra.detalles.isEmpty)
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12),
@@ -532,7 +453,9 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
                                       children: [
                                         Text(det.idDetalle, style: TextStyle(fontFamily: 'monospace', fontWeight: FontWeight.w700, fontSize: 10, color: goldColor)),
                                         const SizedBox(width: 6),
-                                        Text(det.nombreInsumo, style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w700, fontSize: 12, color: textColor)),
+                                        Expanded(
+                                          child: Text(det.nombreInsumo, style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w700, fontSize: 12, color: textColor), overflow: TextOverflow.ellipsis),
+                                        ),
                                       ],
                                     ),
                                     const SizedBox(height: 3),
@@ -595,9 +518,9 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
   }
 
   void _mostrarModalNuevaCompra(BuildContext context) {
-    final TextEditingController proveedorController = TextEditingController();
+    String? proveedorSeleccionado;
     final TextEditingController descController = TextEditingController();
-    String estadoSeleccionado = 'Pendiente';
+    List<Map<String, dynamic>> filasDetalle = [];
 
     showModalBottomSheet(
       context: context,
@@ -608,9 +531,28 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
         final Color cardBg = isDarkMode ? const Color(0xFF1E1E1E) : const Color(0xFFFFFFFF);
         final Color textColor = isDarkMode ? const Color(0xFFF8F9FA) : const Color(0xFF121212);
         const Color goldColor = Color(0xFFC9A227);
+        final Color inputBg = isDarkMode ? const Color(0xFF2D2D2D) : const Color(0xFFF1F3F5);
+        final Color subtleColor = isDarkMode ? const Color(0xFF9A9A9A) : const Color(0xFF6B6B6B);
 
         return StatefulBuilder(
           builder: (context, setModalState) {
+            void agregarFila() {
+              final cantCtrl = TextEditingController(text: '1');
+              final valCtrl = TextEditingController(text: '0');
+              cantCtrl.addListener(() => setModalState(() {}));
+              valCtrl.addListener(() => setModalState(() {}));
+
+              filasDetalle.add({
+                'idInsumo': null,
+                'cantController': cantCtrl,
+                'valorController': valCtrl,
+              });
+            }
+
+            if (filasDetalle.isEmpty) {
+              agregarFila();
+            }
+
             return Container(
               decoration: BoxDecoration(
                 color: cardBg,
@@ -619,85 +561,248 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
               ),
               padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom,
-                left: 24,
-                right: 24,
+                left: 20,
+                right: 20,
                 top: 10,
               ),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Container(
-                        width: 40,
-                        height: 4,
-                        decoration: BoxDecoration(
-                          color: isDarkMode ? Colors.white24 : Colors.black26,
-                          borderRadius: BorderRadius.circular(2),
-                        ),
+              constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.92), 
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Container(
+                      width: 40,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: isDarkMode ? Colors.white24 : Colors.black26,
+                        borderRadius: BorderRadius.circular(2),
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Nueva Compra', style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w800, fontSize: 18, color: textColor)),
-                        IconButton(icon: const Icon(Icons.close, size: 20), onPressed: () => Navigator.pop(context))
-                      ],
-                    ),
-                    const Divider(color: Color(0x40C9A227)),
-                    const SizedBox(height: 12),
-                    _buildModalField('PROVEEDOR', 'Ej. PROV-001', proveedorController),
-                    const SizedBox(height: 12),
-                    _buildModalField('DESCRIPCIÓN', 'Descripción general de la compra', descController),
-                    const SizedBox(height: 12),
-                    Text('ESTADO', style: const TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w700, fontSize: 11, color: Color(0xFF9A9A9A))),
-                    const SizedBox(height: 6),
-                    DropdownButtonFormField<String>(
-                      value: estadoSeleccionado,
-                      dropdownColor: cardBg,
-                      items: ['Pendiente', 'Recibida', 'En tránsito', 'Cancelada']
-                          .map((e) => DropdownMenuItem(value: e, child: Text(e, style: TextStyle(fontFamily: 'Montserrat', fontSize: 13, color: textColor))))
-                          .toList(),
-                      onChanged: (val) => setModalState(() => estadoSeleccionado = val!),
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: isDarkMode ? const Color(0xFF2A2A2A) : Colors.grey[100],
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text('Nueva Compra', style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w800, fontSize: 18, color: textColor), overflow: TextOverflow.ellipsis),
+                      ),
+                      IconButton(icon: const Icon(Icons.close, size: 20), onPressed: () => Navigator.pop(context))
+                    ],
+                  ),
+                  const Divider(color: Color(0x40C9A227)),
+                  
+                  Flexible(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 12),
+                          Text('PROVEEDOR', style: const TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w700, fontSize: 11, color: Color(0xFF9A9A9A))),
+                          const SizedBox(height: 6),
+                          DropdownButtonFormField<String>(
+                            value: proveedorSeleccionado,
+                            dropdownColor: cardBg,
+                            isExpanded: true, 
+                            hint: Text('— Seleccionar proveedor —', style: TextStyle(fontFamily: 'Montserrat', fontSize: 13, color: isDarkMode ? Colors.grey[500] : Colors.grey[600]), overflow: TextOverflow.ellipsis),
+                            items: _proveedores.map((p) => DropdownMenuItem(
+                              value: p['id'], 
+                              child: Text('${p['id']} — ${p['nombre']}', style: TextStyle(fontFamily: 'Montserrat', fontSize: 13, color: textColor), overflow: TextOverflow.ellipsis)
+                            )).toList(),
+                            onChanged: (val) => setModalState(() => proveedorSeleccionado = val),
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: inputBg,
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
+                              focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: goldColor)),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          _buildModalField('DESCRIPCIÓN', 'Descripción general de la compra', descController),
+                          const SizedBox(height: 24),
+                          
+                          Wrap(
+                            alignment: WrapAlignment.spaceBetween,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            spacing: 8,
+                            runSpacing: 10,
+                            children: [
+                              Text('INSUMOS DE LA COMPRA', style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w800, fontSize: 11, color: goldColor, letterSpacing: 0.5)),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  OutlinedButton.icon(
+                                    style: OutlinedButton.styleFrom(
+                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                                      minimumSize: const Size(0, 32),
+                                      side: BorderSide(color: goldColor.withOpacity(0.5), style: BorderStyle.solid),
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                                    ),
+                                    onPressed: () => _mostrarModalCrearInsumoRapido(context, setModalState),
+                                    icon: Icon(Icons.add_box_outlined, size: 14, color: goldColor),
+                                    label: Text('Crear insumo', style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w700, fontSize: 11, color: goldColor)),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  ElevatedButton.icon(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: goldColor,
+                                      foregroundColor: Colors.black,
+                                      elevation: 0,
+                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                                      minimumSize: const Size(0, 32),
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                                    ),
+                                    onPressed: () => setModalState(() => agregarFila()),
+                                    icon: const Icon(Icons.add, size: 14),
+                                    label: const Text('Añadir fila', style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w700, fontSize: 11)),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          
+                          ...filasDetalle.asMap().entries.map((entry) {
+                            int idx = entry.key;
+                            var fila = entry.value;
+                            double subtotal = (int.tryParse(fila['cantController'].text) ?? 0) * (double.tryParse(fila['valorController'].text) ?? 0.0);
+
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 4,
+                                    child: SizedBox(
+                                      height: 40, 
+                                      child: DropdownButtonFormField<String>(
+                                        value: fila['idInsumo'],
+                                        isExpanded: true,
+                                        dropdownColor: cardBg,
+                                        hint: Text('Seleccionar insumo...', style: TextStyle(fontSize: 12, color: isDarkMode ? Colors.grey[500] : Colors.grey[600]), overflow: TextOverflow.ellipsis),
+                                        items: _insumosDisponibles.map((i) => DropdownMenuItem(
+                                          value: i['id'], 
+                                          child: Text('${i['id']} - ${i['nombre']}', style: TextStyle(fontSize: 12, color: textColor), overflow: TextOverflow.ellipsis)
+                                        )).toList(),
+                                        onChanged: (val) => setModalState(() => fila['idInsumo'] = val),
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: inputBg,
+                                          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(6), borderSide: BorderSide.none),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Expanded(
+                                    flex: 2,
+                                    child: SizedBox(
+                                      height: 40,
+                                      child: TextField(
+                                        controller: fila['cantController'],
+                                        keyboardType: TextInputType.number,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 13, color: textColor),
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: inputBg,
+                                          contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(6), borderSide: BorderSide.none),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Expanded(
+                                    flex: 3,
+                                    child: SizedBox(
+                                      height: 40,
+                                      child: TextField(
+                                        controller: fila['valorController'],
+                                        keyboardType: TextInputType.number,
+                                        style: TextStyle(fontSize: 13, color: textColor),
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: inputBg,
+                                          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(6), borderSide: BorderSide.none),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  SizedBox(
+                                    width: 70,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Expanded(
+                                          child: Text('\$${subtotal.toStringAsFixed(0)}', style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w700, fontSize: 12, color: goldColor), overflow: TextOverflow.ellipsis),
+                                        ),
+                                        InkWell(
+                                          onTap: () => setModalState(() => filasDetalle.removeAt(idx)),
+                                          child: Icon(Icons.delete_outline, size: 18, color: subtleColor),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                          const SizedBox(height: 24),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 24),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 48,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: goldColor,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                        ),
-                        onPressed: () {
-                          if (proveedorController.text.isNotEmpty) {
-                            setState(() {
-                              String nuevoId = 'COM-00${_compras.length + 1}';
-                              _compras.add(CompraMasterMock(
-                                idCompra: nuevoId,
-                                idProveedor: proveedorController.text,
-                                fecha: DateTime.now().toString().substring(0, 10),
-                                descripcion: descController.text.isEmpty ? 'Compra general' : descController.text,
-                                estado: estadoSeleccionado,
-                                detalles: [],
-                              ));
-                            });
-                            Navigator.pop(context);
-                          }
-                        },
-                        child: const Text('Guardar', style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w700, fontSize: 14, color: Color(0xFF121212))),
+                  ),
+                  
+                  SizedBox(
+                    width: double.infinity,
+                    height: 48,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: goldColor,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       ),
+                      onPressed: () {
+                        if (proveedorSeleccionado == null) {
+                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Por favor, selecciona un proveedor.')));
+                           return;
+                        }
+                        
+                        setState(() {
+                          String nuevoId = 'COM-00${_compras.length + 1}';
+                          
+                          List<DetalleCompraMock> nuevosDetalles = filasDetalle
+                              .where((f) => f['idInsumo'] != null)
+                              .map((f) {
+                                String idInsumo = f['idInsumo'];
+                                String nombreInsumo = _insumosDisponibles.firstWhere((i) => i['id'] == idInsumo)['nombre']!;
+                                int index = filasDetalle.indexOf(f) + 1;
+                                return DetalleCompraMock(
+                                  idDetalle: 'DC-00$index',
+                                  nombreInsumo: nombreInsumo,
+                                  cantidad: int.tryParse(f['cantController'].text) ?? 1,
+                                  valorUnitario: double.tryParse(f['valorController'].text) ?? 0.0,
+                                );
+                              }).toList();
+
+                          _compras.add(CompraMasterMock(
+                            idCompra: nuevoId,
+                            idProveedor: proveedorSeleccionado!,
+                            fecha: DateTime.now().toString().substring(0, 10),
+                            descripcion: descController.text.isEmpty ? 'Compra general' : descController.text,
+                            detalles: nuevosDetalles,
+                          ));
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Guardar Compra', style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w700, fontSize: 14, color: Color(0xFF121212))),
                     ),
-                    const SizedBox(height: 32),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 16),
+                ],
               ),
             );
           },
@@ -706,10 +811,97 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
     );
   }
 
+  void _mostrarModalCrearInsumoRapido(BuildContext parentContext, StateSetter setParentModalState) {
+    final TextEditingController nombreInsumoCtrl = TextEditingController();
+
+    showDialog(
+      context: parentContext,
+      builder: (context) {
+        final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+        final Color cardBg = isDarkMode ? const Color(0xFF1E1E1E) : const Color(0xFFFFFFFF);
+        final Color textColor = isDarkMode ? const Color(0xFFF8F9FA) : const Color(0xFF121212);
+        const Color goldColor = Color(0xFFC9A227);
+        final Color inputBg = isDarkMode ? const Color(0xFF2D2D2D) : const Color(0xFFF1F3F5);
+
+        return AlertDialog(
+          backgroundColor: cardBg,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: Row(
+            children: [
+              Icon(Icons.inventory_2_outlined, color: goldColor, size: 20),
+              const SizedBox(width: 8),
+              Text('Registrar Insumo', style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w800, fontSize: 16, color: textColor)),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('NOMBRE DEL INSUMO', style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w700, fontSize: 11, color: Color(0xFF9A9A9A))),
+              const SizedBox(height: 6),
+              TextField(
+                controller: nombreInsumoCtrl,
+                decoration: InputDecoration(
+                  hintText: 'Ej. Cinta reflectiva',
+                  hintStyle: TextStyle(fontSize: 13, color: isDarkMode ? Colors.grey[500] : Colors.grey[600]),
+                  filled: true,
+                  fillColor: inputBg,
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
+                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: goldColor)),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                ),
+                style: TextStyle(fontFamily: 'Montserrat', fontSize: 14, color: textColor),
+              ),
+            ],
+          ),
+          actions: [
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      side: BorderSide(color: isDarkMode ? Colors.white24 : Colors.black26),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    onPressed: () => Navigator.pop(context),
+                    child: Text('Cancelar', style: TextStyle(color: textColor, fontWeight: FontWeight.bold, fontFamily: 'Montserrat')),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: goldColor,
+                      foregroundColor: Colors.black,
+                      elevation: 0,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    onPressed: () {
+                      if (nombreInsumoCtrl.text.isNotEmpty) {
+                        setState(() {
+                           String newId = 'INS-00${_insumosDisponibles.length + 1}';
+                           _insumosDisponibles.add({'id': newId, 'nombre': nombreInsumoCtrl.text});
+                        });
+                        setParentModalState((){}); 
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: const Text('Guardar', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Montserrat')),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _mostrarModalEditarCompra(BuildContext context, CompraMasterMock compra) {
-    final TextEditingController proveedorController = TextEditingController(text: compra.idProveedor);
+    String proveedorSeleccionado = compra.idProveedor;
     final TextEditingController descController = TextEditingController(text: compra.descripcion);
-    String estadoSeleccionado = compra.estado;
 
     showModalBottomSheet(
       context: context,
@@ -720,6 +912,7 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
         final Color cardBg = isDarkMode ? const Color(0xFF1E1E1E) : const Color(0xFFFFFFFF);
         final Color textColor = isDarkMode ? const Color(0xFFF8F9FA) : const Color(0xFF121212);
         const Color goldColor = Color(0xFFC9A227);
+        final Color inputBg = isDarkMode ? const Color(0xFF2D2D2D) : const Color(0xFFF1F3F5); 
 
         return StatefulBuilder(
           builder: (context, setModalState) {
@@ -754,31 +947,35 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Editar Compra (${compra.idCompra})', style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w800, fontSize: 18, color: textColor)),
+                        Expanded(
+                          child: Text('Editar Compra (${compra.idCompra})', style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w800, fontSize: 18, color: textColor), overflow: TextOverflow.ellipsis),
+                        ),
                         IconButton(icon: const Icon(Icons.close, size: 20), onPressed: () => Navigator.pop(context))
                       ],
                     ),
                     const Divider(color: Color(0x40C9A227)),
                     const SizedBox(height: 12),
-                    _buildModalField('PROVEEDOR', 'Proveedor', proveedorController),
-                    const SizedBox(height: 12),
-                    _buildModalField('DESCRIPCIÓN', 'Descripción', descController),
-                    const SizedBox(height: 12),
-                    Text('ESTADO', style: const TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w700, fontSize: 11, color: Color(0xFF9A9A9A))),
+                    Text('PROVEEDOR', style: const TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w700, fontSize: 11, color: Color(0xFF9A9A9A))),
                     const SizedBox(height: 6),
                     DropdownButtonFormField<String>(
-                      value: estadoSeleccionado,
+                      value: _proveedores.any((p) => p['id'] == proveedorSeleccionado) ? proveedorSeleccionado : null,
                       dropdownColor: cardBg,
-                      items: ['Pendiente', 'Recibida', 'En tránsito', 'Cancelada']
-                          .map((e) => DropdownMenuItem(value: e, child: Text(e, style: TextStyle(fontFamily: 'Montserrat', fontSize: 13, color: textColor))))
-                          .toList(),
-                      onChanged: (val) => setModalState(() => estadoSeleccionado = val!),
+                      isExpanded: true,
+                      hint: Text('— Seleccionar proveedor —', style: TextStyle(fontFamily: 'Montserrat', fontSize: 13, color: isDarkMode ? Colors.grey[500] : Colors.grey[600]), overflow: TextOverflow.ellipsis),
+                      items: _proveedores.map((p) => DropdownMenuItem(
+                        value: p['id'], 
+                        child: Text('${p['id']} — ${p['nombre']}', style: TextStyle(fontFamily: 'Montserrat', fontSize: 13, color: textColor), overflow: TextOverflow.ellipsis)
+                      )).toList(),
+                      onChanged: (val) => setModalState(() => proveedorSeleccionado = val!),
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: isDarkMode ? const Color(0xFF2A2A2A) : Colors.grey[100],
+                        fillColor: inputBg,
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
+                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: goldColor)),
                       ),
                     ),
+                    const SizedBox(height: 12),
+                    _buildModalField('DESCRIPCIÓN', 'Descripción', descController),
                     const SizedBox(height: 24),
                     SizedBox(
                       width: double.infinity,
@@ -790,9 +987,8 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
                         ),
                         onPressed: () {
                           setState(() {
-                            compra.idProveedor = proveedorController.text;
+                            compra.idProveedor = proveedorSeleccionado;
                             compra.descripcion = descController.text;
-                            compra.estado = estadoSeleccionado;
                           });
                           Navigator.pop(context);
                         },
@@ -805,91 +1001,6 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
               ),
             );
           },
-        );
-      },
-    );
-  }
-
-  void _mostrarModalAgregarDetalle(BuildContext context, CompraMasterMock compra) {
-    final TextEditingController insumoController = TextEditingController();
-    final TextEditingController cantController = TextEditingController();
-    final TextEditingController valorController = TextEditingController();
-
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-        final Color cardBg = isDarkMode ? const Color(0xFF1E1E1E) : const Color(0xFFFFFFFF);
-        final Color textColor = isDarkMode ? const Color(0xFFF8F9FA) : const Color(0xFF121212);
-        const Color goldColor = Color(0xFFC9A227);
-
-        return Container(
-          decoration: BoxDecoration(
-            color: cardBg,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-            border: Border.all(color: goldColor.withOpacity(0.4)),
-          ),
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-            left: 24,
-            right: 24,
-            top: 10,
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Container(width: 40, height: 4, decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(2))),
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Agregar Ítem a ${compra.idCompra}', style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w800, fontSize: 16, color: textColor)),
-                    IconButton(icon: const Icon(Icons.close, size: 20), onPressed: () => Navigator.pop(context))
-                  ],
-                ),
-                const Divider(color: Color(0x40C9A227)),
-                const SizedBox(height: 12),
-                _buildModalField('NOMBRE DEL INSUMO', 'Ej. Cierre metálico', insumoController),
-                const SizedBox(height: 12),
-                _buildModalField('CANTIDAD', 'Ej. 25', cantController, isNumber: true),
-                const SizedBox(height: 12),
-                _buildModalField('VALOR UNITARIO', 'Ej. 3500', valorController, isNumber: true),
-                const SizedBox(height: 24),
-                SizedBox(
-                  width: double.infinity,
-                  height: 48,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: goldColor,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    ),
-                    onPressed: () {
-                      if (insumoController.text.isNotEmpty && cantController.text.isNotEmpty && valorController.text.isNotEmpty) {
-                        setState(() {
-                          String idDetalle = 'DC-00${compra.detalles.length + 1}';
-                          compra.detalles.add(DetalleCompraMock(
-                            idDetalle: idDetalle,
-                            nombreInsumo: insumoController.text,
-                            cantidad: int.tryParse(cantController.text) ?? 1,
-                            valorUnitario: double.tryParse(valorController.text) ?? 0.0,
-                          ));
-                        });
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: const Text('Agregar al Detalle', style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w700, fontSize: 14, color: Color(0xFF121212))),
-                  ),
-                ),
-                const SizedBox(height: 32),
-              ],
-            ),
-          ),
         );
       },
     );
@@ -940,7 +1051,7 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
                 ),
                 const Divider(color: Color(0x40C9A227)),
                 const SizedBox(height: 12),
-                _buildModalField('NOMBRE DEL INSUNO', 'Nombre', insumoController),
+                _buildModalField('NOMBRE DEL INSUMO', 'Nombre', insumoController), 
                 const SizedBox(height: 12),
                 _buildModalField('CANTIDAD', 'Cantidad', cantController, isNumber: true),
                 const SizedBox(height: 12),
@@ -975,28 +1086,38 @@ class _ComprasMobileViewState extends State<ComprasMobileView> {
   }
 
   Widget _buildModalField(String label, String hint, TextEditingController controller, {bool isNumber = false}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w700, fontSize: 11, color: Color(0xFF9A9A9A)),
-        ),
-        const SizedBox(height: 6),
-        TextField(
-          controller: controller,
-          keyboardType: isNumber ? TextInputType.number : TextInputType.text,
-          decoration: InputDecoration(
-            hintText: hint,
-            filled: true,
-            fillColor: const Color(0xFF2A2A2A),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
-            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: Color(0xFFC9A227))),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-          ),
-          style: const TextStyle(fontFamily: 'Montserrat', fontSize: 14, color: Colors.white),
-        ),
-      ],
+    return Builder(
+      builder: (context) {
+        final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+        final Color inputBg = isDarkMode ? const Color(0xFF2D2D2D) : const Color(0xFFF1F3F5);
+        final Color textInputColor = isDarkMode ? Colors.white : Colors.black87; 
+        final Color hintColor = isDarkMode ? Colors.grey[500]! : Colors.grey[600]!; 
+        
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: const TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w700, fontSize: 11, color: Color(0xFF9A9A9A)),
+            ),
+            const SizedBox(height: 6),
+            TextField(
+              controller: controller,
+              keyboardType: isNumber ? TextInputType.number : TextInputType.text,
+              decoration: InputDecoration(
+                hintText: hint,
+                hintStyle: TextStyle(fontSize: 13, color: hintColor), 
+                filled: true,
+                fillColor: inputBg, 
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
+                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: Color(0xFFC9A227))),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              ),
+              style: TextStyle(fontFamily: 'Montserrat', fontSize: 14, color: textInputColor),
+            ),
+          ],
+        );
+      }
     );
   }
 }
