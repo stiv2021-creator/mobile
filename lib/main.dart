@@ -17,6 +17,17 @@ import 'features/personal/empleados/views/empleados_view.dart';
 //Ventas
 import 'features/operaciones/ventas/views/ventas_view.dart';
 
+// ==========================================
+// NUEVAS IMPORTACIONES DE MÓDULOS
+// ==========================================
+// Proveedores
+import 'features/Proveedores/views/proveedores_view.dart';
+
+// Órdenes de Pedido
+import 'features/Ordenes_de_pedido/views/ordenes_pedido_view.dart';
+
+// ==========================================
+
 // 1. Proveedor global para gestionar el estado del tema con persistencia
 class ThemeProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system; // Por defecto usa el del sistema
@@ -116,6 +127,12 @@ class EslabonApp extends StatelessWidget {
             const EmpleadosView(), // Ruta para la vista de empleados
         '/ventas': (context) =>
             const VentasView(), // Ruta para la vista de ventas
+        // ==========================================
+        // NUEVAS RUTAS
+        // ==========================================
+        '/proveedores': (context) => const ProveedoresView(),
+        '/ordenes_pedido': (context) => const OrdenesPedidoView(),
+        // ==========================================
       },
     );
   }
