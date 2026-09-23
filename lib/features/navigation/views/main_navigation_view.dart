@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
-// Importaciones de tus vistas basadas en tu estructura
+// ==========================================
+// IMPORTACIONES DE VISTAS
+// Verifica que estas rutas coincidan exactamente con tus carpetas físicas
+// ==========================================
 import '../../produccion_inventario/insumos/views/insumos_mobile_view.dart';
 import '../../produccion_inventario/compras/views/compras_mobile_view.dart';
 import '../../catalogos/clientes/views/clientes_view.dart';
-import '../../catalogos/proveedores/views/proveedores_view.dart';
+import '../../Proveedores/views/proveedores_view.dart'; // Tu nueva vista
 import '../../produccion_inventario/remision/views/remision_mobile_view.dart';
-import '../../operaciones/orden_de_pedido/views/orden_pedido_view.dart';
+import '../../ordenes_de_pedido/views/ordenes_pedido_view.dart'; // Tu nueva vista
 import '../../operaciones/ventas/views/ventas_view.dart';
 import '../../produccion_inventario/produccion/views/produccion_view.dart';
 import '../../operaciones/registro_diario/views/registro_diario_view.dart';
@@ -30,9 +33,9 @@ class _MainNavigationViewState extends State<MainNavigationView> {
   final List<Widget> _pages = [
     const DashboardPage(), // 0: Dashboard
     const ClientesView(), // 1: Clientes
-    const ProveedoresView(), // 2: Proveedores
+    const ProveedoresView(), // 2: Proveedores (NUEVO)
     const RemisionMobileView(), // 3: Remisiones
-    const OrdenPedidoView(), // 4: Órdenes de Pedido
+    const OrdenesPedidoView(), // 4: Órdenes de Pedido (NUEVO)
     const VentasView(), // 5: Ventas
     const InsumosMobileView(), // 6: Insumos
     const ComprasMobileView(), // 7: Compras
@@ -49,11 +52,27 @@ class _MainNavigationViewState extends State<MainNavigationView> {
     });
   }
 
+  // Método para sincronizar el índice real de la app con el índice visual de la barra inferior
+  int _getBottomNavIndex() {
+    switch (_currentIndex) {
+      case 0:
+        return 0; // Inicio (Dashboard)
+      case 6:
+        return 1; // Stock (Insumos)
+      case 1:
+        return 2; // Clientes
+      case 5:
+        return 3; // Ventas
+      default:
+        return 0; // Si está en otra vista del Drawer, marca Inicio por defecto
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final backgroundColor = isDarkMode ? const Color(0xFF121212) : Colors.white;
-    final selectedColor = const Color(0xFFD4AF37);
+    const selectedColor = Color(0xFFD4AF37); // Dorado Eslabón
     final unselectedColor = isDarkMode ? Colors.grey[400]! : Colors.grey[600]!;
 
     return Scaffold(
@@ -302,17 +321,18 @@ class _MainNavigationViewState extends State<MainNavigationView> {
           ],
         ),
         child: BottomNavigationBar(
-          currentIndex: _currentIndex > 3 ? 0 : _currentIndex,
+          currentIndex: _getBottomNavIndex(),
           onTap: (index) {
             if (index == 4) {
               _scaffoldKey.currentState
                   ?.openEndDrawer(); // Abre el menú lateral
             } else {
-              if (index == 0) setState(() => _currentIndex = 0); // Inicio
-              if (index == 1)
-                setState(() => _currentIndex = 6); // Stock (Insumos)
-              if (index == 2) setState(() => _currentIndex = 1); // Clientes
-              if (index == 3) setState(() => _currentIndex = 5); // Ventas
+              setState(() {
+                if (index == 0) _currentIndex = 0; // Inicio
+                if (index == 1) _currentIndex = 6; // Stock (Insumos)
+                if (index == 2) _currentIndex = 1; // Clientes
+                if (index == 3) _currentIndex = 5; // Ventas
+              });
             }
           },
           type: BottomNavigationBarType.fixed,

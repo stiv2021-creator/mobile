@@ -4,8 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // Importa tus vistas de autenticación
 import 'features/Inicio_de_sesion/views/login_view.dart';
-import 'features/Registrarse/views/register_view.dart';
-import 'features/Recuperar_contra/views/recover_password_view.dart';
 
 // Importa tu vista de navegación principal de Eslabón
 import 'features/navigation/views/main_navigation_view.dart';
@@ -18,6 +16,17 @@ import 'features/personal/empleados/views/empleados_view.dart';
 
 //Ventas
 import 'features/operaciones/ventas/views/ventas_view.dart';
+
+// ==========================================
+// NUEVAS IMPORTACIONES DE MÓDULOS
+// ==========================================
+// Proveedores
+import 'features/Proveedores/views/proveedores_view.dart';
+
+// Órdenes de Pedido
+import 'features/Ordenes_de_pedido/views/ordenes_pedido_view.dart';
+
+// ==========================================
 
 // 1. Proveedor global para gestionar el estado del tema con persistencia
 class ThemeProvider extends ChangeNotifier {
@@ -110,13 +119,20 @@ class EslabonApp extends StatelessWidget {
       // 5. Mapa de rutas para navegar entre autenticación y la app principal
       routes: {
         '/login': (context) => const LoginView(),
-        '/register': (context) => const RegistroEmpresaView(),
-        '/recover': (context) => const RecoverPasswordView(),
         '/home': (context) =>
             const MainNavigationView(), // Tu menú principal de Eslabón
-        '/dashboard': (context) => const DashboardPage(), // Ruta para el Dashboard
-        '/empleados': (context) => const EmpleadosView(), // Ruta para la vista de empleados
-        '/ventas': (context) => const VentasView(), // Ruta para la vista de ventas
+        '/dashboard': (context) =>
+            const DashboardPage(), // Ruta para el Dashboard
+        '/empleados': (context) =>
+            const EmpleadosView(), // Ruta para la vista de empleados
+        '/ventas': (context) =>
+            const VentasView(), // Ruta para la vista de ventas
+        // ==========================================
+        // NUEVAS RUTAS
+        // ==========================================
+        '/proveedores': (context) => const ProveedoresView(),
+        '/ordenes_pedido': (context) => const OrdenesPedidoView(),
+        // ==========================================
       },
     );
   }
