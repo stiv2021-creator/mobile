@@ -15,7 +15,6 @@ import '../../produccion_inventario/produccion/views/produccion_view.dart';
 import '../../operaciones/registro_diario/views/registro_diario_view.dart';
 import '../../personal/empleados/views/empleados_view.dart';
 import '../../Principal/Dashboard/Dashboard.dart';
-
 import '../widgets/theme_dropdown_widget.dart';
 
 class MainNavigationView extends StatefulWidget {
@@ -77,7 +76,6 @@ class _MainNavigationViewState extends State<MainNavigationView> {
 
     return Scaffold(
       key: _scaffoldKey,
-
       endDrawer: Drawer(
         backgroundColor: isDarkMode ? const Color(0xFF1A1A1A) : Colors.white,
         child: SafeArea(
@@ -92,14 +90,12 @@ class _MainNavigationViewState extends State<MainNavigationView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'ESLABÓN',
-                      style: TextStyle(
-                        color: Color(0xFFD4AF37),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        letterSpacing: 1.5,
-                      ),
+                    // Imagen del logo dinámica apuntando a lib/images/
+                    Image.asset(
+                      isDarkMode
+                          ? 'lib/images/logo_negro.jpg'
+                          : 'lib/images/logo_blanco.jpg',
+                      height: 28,
                     ),
                     Row(
                       children: [
@@ -121,7 +117,6 @@ class _MainNavigationViewState extends State<MainNavigationView> {
                 color: isDarkMode ? Colors.white24 : Colors.black12,
                 height: 1,
               ),
-
               // Lista de opciones del menú lateral vinculadas por índice
               Expanded(
                 child: ListView(
@@ -135,7 +130,6 @@ class _MainNavigationViewState extends State<MainNavigationView> {
                       () => _navigateToPage(0),
                       isDarkMode,
                     ),
-
                     _buildSectionTitle('COMERCIAL'),
                     _buildDrawerItem(
                       Icons.person_outline,
@@ -172,7 +166,6 @@ class _MainNavigationViewState extends State<MainNavigationView> {
                       () => _navigateToPage(5),
                       isDarkMode,
                     ),
-
                     _buildSectionTitle('ALMACÉN'),
                     _buildDrawerItem(
                       Icons.inventory_2_outlined,
@@ -188,7 +181,6 @@ class _MainNavigationViewState extends State<MainNavigationView> {
                       () => _navigateToPage(7),
                       isDarkMode,
                     ),
-
                     _buildSectionTitle('PRODUCCIÓN'),
                     _buildDrawerItem(
                       Icons.precision_manufacturing_outlined,
@@ -204,7 +196,6 @@ class _MainNavigationViewState extends State<MainNavigationView> {
                       () => _navigateToPage(9),
                       isDarkMode,
                     ),
-
                     _buildSectionTitle('ADMINISTRACIÓN'),
                     _buildDrawerItem(
                       Icons.badge_outlined,
@@ -216,7 +207,6 @@ class _MainNavigationViewState extends State<MainNavigationView> {
                   ],
                 ),
               ),
-
               // Pie de página (Perfil y Cerrar sesión)
               Container(
                 padding: const EdgeInsets.all(16.0),
@@ -305,10 +295,8 @@ class _MainNavigationViewState extends State<MainNavigationView> {
           ),
         ),
       ),
-
       // Muestra la vista seleccionada dentro del contenedor principal
       body: _pages[_currentIndex],
-
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: backgroundColor,
