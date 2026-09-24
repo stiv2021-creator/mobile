@@ -60,10 +60,7 @@ class FilaPiezaSinTalla {
   String idTipoPieza;
   int cantidad;
 
-  FilaPiezaSinTalla({
-    required this.idTipoPieza,
-    required this.cantidad,
-  });
+  FilaPiezaSinTalla({required this.idTipoPieza, required this.cantidad});
 }
 
 class ResumenItem {
@@ -112,11 +109,7 @@ class _HoverActionButtonState extends State<_HoverActionButton> {
                 : Colors.transparent,
             shape: BoxShape.circle,
           ),
-          child: Icon(
-            widget.icon,
-            size: 18,
-            color: widget.doradoColor,
-          ),
+          child: Icon(widget.icon, size: 18, color: widget.doradoColor),
         ),
       ),
     );
@@ -148,16 +141,18 @@ class _RemisionMobileViewState extends State<RemisionMobileView> {
           idCliente: '00-1',
           idInsumo: '00-1',
           cantidades: {'36': 39, '38': 63, '40': 130},
-        )
+        ),
       ],
       filasNinos: [],
       filasLetras: [],
-      filasPiezas: [
-        FilaPiezaSinTalla(idTipoPieza: 'P-01', cantidad: 20),
-      ],
+      filasPiezas: [FilaPiezaSinTalla(idTipoPieza: 'P-01', cantidad: 20)],
       resumen: [
         ResumenItem(codigo: 'id_insumo: 00-1', nombre: 'Camisa', total: 232),
-        ResumenItem(codigo: 'id_tipo_pieza: P-01', nombre: 'Botones', total: 20),
+        ResumenItem(
+          codigo: 'id_tipo_pieza: P-01',
+          nombre: 'Botones',
+          total: 20,
+        ),
       ],
     ),
   ];
@@ -176,7 +171,7 @@ class _RemisionMobileViewState extends State<RemisionMobileView> {
   Widget build(BuildContext context) {
     // Detección automática del brillo del tema idéntica al módulo de Clientes
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    
+
     final backgroundColor = isDarkMode ? kDarkBackground : kLightBackground;
     final cardColor = isDarkMode ? kDarkCard : kLightCard;
     final textColor = isDarkMode ? Colors.white : Colors.black87;
@@ -192,49 +187,22 @@ class _RemisionMobileViewState extends State<RemisionMobileView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ENCABEZADO SUPERIOR
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // ENCABEZADO SUPERIOR (Sin el botón "Nueva remisión")
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Remisiones',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: textColor,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        '${_remisionesFiltradas.length} de ${_remisiones.length} registros',
-                        style: TextStyle(fontSize: 12, color: subTextColor),
-                      ),
-                    ],
+                  Text(
+                    'Remisiones',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: textColor,
+                    ),
                   ),
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: doradoColor,
-                      foregroundColor: Colors.black,
-                      elevation: 0,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 10,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onPressed: () {
-                      _mostrarMensaje('Abrir formulario de nueva remisión');
-                    },
-                    icon: const Icon(Icons.add, size: 18),
-                    label: const Text(
-                      'Nueva remisión',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
+                  const SizedBox(height: 2),
+                  Text(
+                    '${_remisionesFiltradas.length} de ${_remisiones.length} registros',
+                    style: TextStyle(fontSize: 12, color: subTextColor),
                   ),
                 ],
               ),
@@ -310,9 +278,7 @@ class _RemisionMobileViewState extends State<RemisionMobileView> {
       decoration: BoxDecoration(
         color: cardColor,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDarkMode ? kDarkBorder : kLightBorder,
-        ),
+        border: Border.all(color: isDarkMode ? kDarkBorder : kLightBorder),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.03),
@@ -329,7 +295,10 @@ class _RemisionMobileViewState extends State<RemisionMobileView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: doradoColor.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(6),
@@ -348,17 +317,28 @@ class _RemisionMobileViewState extends State<RemisionMobileView> {
                 children: [
                   Text(
                     'CLIENTE: ',
-                    style: TextStyle(fontSize: 10, color: subTextColor, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: subTextColor,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 3,
+                    ),
                     decoration: BoxDecoration(
                       color: doradoColor.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
                       remision.idCliente,
-                      style: TextStyle(fontSize: 10, color: doradoColor, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: doradoColor,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
@@ -374,7 +354,11 @@ class _RemisionMobileViewState extends State<RemisionMobileView> {
               Expanded(
                 child: Text(
                   remision.fichaTecnicaNombre,
-                  style: const TextStyle(fontSize: 12, color: kBlueColor, fontWeight: FontWeight.w600),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: kBlueColor,
+                    fontWeight: FontWeight.w600,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -382,49 +366,52 @@ class _RemisionMobileViewState extends State<RemisionMobileView> {
             ],
           ),
           const SizedBox(height: 14),
-          Divider(
-            height: 1,
-            color: isDarkMode ? kDarkBorder : Colors.black12,
-          ),
+          Divider(height: 1, color: isDarkMode ? kDarkBorder : Colors.black12),
           const SizedBox(height: 12),
-          // Botón de Muestra Remisión + Acciones de Edición/Eliminación
+          // Botón de Muestra Remisión + Acción de Eliminación
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Botón requerido "Muestra Remisión"
               ElevatedButton.icon(
-                onPressed: () => _mostrarModalResumen(remision, isDarkMode, textColor, subTextColor, doradoColor),
+                onPressed: () => _mostrarModalResumen(
+                  remision,
+                  isDarkMode,
+                  textColor,
+                  subTextColor,
+                  doradoColor,
+                ),
                 icon: const Icon(Icons.description_outlined, size: 14),
                 label: const Text(
                   'Ver Resumen Insumos',
                   style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: isDarkMode ? const Color(0xFF252525) : const Color(0xFFEFF6FF),
+                  backgroundColor: isDarkMode
+                      ? const Color(0xFF252525)
+                      : const Color(0xFFEFF6FF),
                   foregroundColor: kBlueColor,
                   elevation: 0,
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                     side: BorderSide(color: kBlueColor.withValues(alpha: 0.4)),
                   ),
                 ),
               ),
-              // Botones de acción directos (Editar / Eliminar)
-              Row(
-                children: [
-                  _HoverActionButton(
-                    icon: Icons.edit_outlined,
-                    doradoColor: doradoColor,
-                    onTap: () => _mostrarMensaje('Editar ${remision.id}'),
-                  ),
-                  const SizedBox(width: 8),
-                  _HoverActionButton(
-                    icon: Icons.delete_outline_rounded,
-                    doradoColor: Colors.redAccent,
-                    onTap: () => _confirmarEliminar(remision, isDarkMode, textColor, subTextColor),
-                  ),
-                ],
+              // Botón de acción directo (Eliminar)
+              _HoverActionButton(
+                icon: Icons.delete_outline_rounded,
+                doradoColor: Colors.redAccent,
+                onTap: () => _confirmarEliminar(
+                  remision,
+                  isDarkMode,
+                  textColor,
+                  subTextColor,
+                ),
               ),
             ],
           ),
@@ -484,7 +471,9 @@ class _RemisionMobileViewState extends State<RemisionMobileView> {
       backgroundColor: Colors.transparent,
       builder: (context) {
         final cardBg = isDarkMode ? kDarkCard : kLightCard;
-        final tieneInsumos = remision.resumen.any((r) => r.codigo.startsWith('id_insumo'));
+        final tieneInsumos = remision.resumen.any(
+          (r) => r.codigo.startsWith('id_insumo'),
+        );
 
         return Container(
           height: MediaQuery.of(context).size.height * 0.75,
@@ -513,7 +502,11 @@ class _RemisionMobileViewState extends State<RemisionMobileView> {
                   children: [
                     Text(
                       'Resumen — ${remision.id}',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: textColor),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: textColor,
+                      ),
                     ),
                     IconButton(
                       icon: Icon(Icons.close, color: textColor, size: 20),
@@ -548,15 +541,37 @@ class _RemisionMobileViewState extends State<RemisionMobileView> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text('CÓDIGO', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: doradoColor)),
+                                child: Text(
+                                  'CÓDIGO',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    color: doradoColor,
+                                  ),
+                                ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text('NOMBRE', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: doradoColor)),
+                                child: Text(
+                                  'NOMBRE',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    color: doradoColor,
+                                  ),
+                                ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text('CANTIDAD', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: doradoColor), textAlign: TextAlign.right),
+                                child: Text(
+                                  'CANTIDAD',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    color: doradoColor,
+                                  ),
+                                  textAlign: TextAlign.right,
+                                ),
                               ),
                             ],
                           ),
@@ -565,15 +580,36 @@ class _RemisionMobileViewState extends State<RemisionMobileView> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text(item.codigo, style: TextStyle(fontSize: 11, fontFamily: 'monospace', color: textColor)),
+                                  child: Text(
+                                    item.codigo,
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      fontFamily: 'monospace',
+                                      color: textColor,
+                                    ),
+                                  ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text(item.nombre, style: TextStyle(fontSize: 11, color: textColor)),
+                                  child: Text(
+                                    item.nombre,
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: textColor,
+                                    ),
+                                  ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text('${item.total}', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: doradoColor), textAlign: TextAlign.right),
+                                  child: Text(
+                                    '${item.total}',
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.bold,
+                                      color: doradoColor,
+                                    ),
+                                    textAlign: TextAlign.right,
+                                  ),
                                 ),
                               ],
                             );
@@ -585,8 +621,12 @@ class _RemisionMobileViewState extends State<RemisionMobileView> {
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color: tieneInsumos
-                              ? (isDarkMode ? const Color(0xFF133221) : const Color(0xFFDCF7E6))
-                              : (isDarkMode ? const Color(0xFF441C20) : const Color(0xFFFDECEA)),
+                              ? (isDarkMode
+                                    ? const Color(0xFF133221)
+                                    : const Color(0xFFDCF7E6))
+                              : (isDarkMode
+                                    ? const Color(0xFF441C20)
+                                    : const Color(0xFFFDECEA)),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Row(
@@ -594,7 +634,11 @@ class _RemisionMobileViewState extends State<RemisionMobileView> {
                           children: [
                             Text(
                               'Entrega insumos',
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: textColor),
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: textColor,
+                              ),
                             ),
                             Text(
                               tieneInsumos ? 'Sí' : 'No',
@@ -619,9 +663,14 @@ class _RemisionMobileViewState extends State<RemisionMobileView> {
                       backgroundColor: doradoColor,
                       foregroundColor: Colors.black,
                       padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
-                    child: const Text('Cerrar Vista Previa', style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: const Text(
+                      'Cerrar Vista Previa',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ],
@@ -647,7 +696,9 @@ class _RemisionMobileViewState extends State<RemisionMobileView> {
       builder: (context) {
         return AlertDialog(
           backgroundColor: dialogBg,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
           content: SizedBox(
             width: 380,
@@ -661,12 +712,20 @@ class _RemisionMobileViewState extends State<RemisionMobileView> {
                     color: kRedColor.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.error_outline_rounded, color: kRedColor, size: 32),
+                  child: const Icon(
+                    Icons.error_outline_rounded,
+                    color: kRedColor,
+                    size: 32,
+                  ),
                 ),
                 const SizedBox(height: 16),
                 Text(
                   '¿Eliminar remisión?',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: textColor),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                  ),
                 ),
                 const SizedBox(height: 16),
                 Container(
@@ -674,9 +733,7 @@ class _RemisionMobileViewState extends State<RemisionMobileView> {
                   decoration: BoxDecoration(
                     color: kRedColor.withValues(alpha: 0.08),
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: kRedColor.withValues(alpha: 0.2),
-                    ),
+                    border: Border.all(color: kRedColor.withValues(alpha: 0.2)),
                   ),
                   child: Text(
                     '¿Deseas eliminar ${remision.id} de forma permanente?',
@@ -694,7 +751,9 @@ class _RemisionMobileViewState extends State<RemisionMobileView> {
                     Expanded(
                       child: OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                          backgroundColor: isDarkMode ? const Color(0xFF2A2A2A) : const Color(0xFFEFEFEF),
+                          backgroundColor: isDarkMode
+                              ? const Color(0xFF2A2A2A)
+                              : const Color(0xFFEFEFEF),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           side: BorderSide.none,
                           shape: RoundedRectangleBorder(
@@ -742,12 +801,6 @@ class _RemisionMobileViewState extends State<RemisionMobileView> {
           ),
         );
       },
-    );
-  }
-
-  void _mostrarMensaje(String mensaje) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(mensaje), duration: const Duration(seconds: 1)),
     );
   }
 }
