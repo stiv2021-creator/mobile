@@ -165,6 +165,8 @@ class _OrdenesPedidoViewState extends State<OrdenesPedidoView> {
     );
   }
 
+  // ... (Deja todo tu código anterior de variables y funciones igual) ...
+
   @override
   Widget build(BuildContext context) {
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
@@ -186,301 +188,295 @@ class _OrdenesPedidoViewState extends State<OrdenesPedidoView> {
         onPressed: _abrirModalNueva,
         child: const Icon(Icons.add, color: Colors.black),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Cabecera idéntica al diseño
-            Text(
-              'Gestión de Comercial',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: textColor,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                Icon(
-                  Icons.shopping_cart_outlined,
-                  color: primaryGold,
-                  size: 28,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  'Órdenes de Pedido',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: textColor,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 4),
-            Text(
-              '${_ordenesFiltradas.length} registros encontrados',
-              style: TextStyle(fontSize: 13, color: subtitleColor),
-            ),
-            const SizedBox(height: 16),
-
-            // Buscador
-            SizedBox(
-              height: 48,
-              child: TextField(
-                controller: _searchController,
-                onChanged: (_) => _aplicarFiltros(),
-                style: TextStyle(color: textColor, fontSize: 14),
-                decoration: InputDecoration(
-                  hintText: 'Buscar por código o remisión...',
-                  hintStyle: TextStyle(color: subtitleColor, fontSize: 14),
-                  prefixIcon: const Icon(
-                    Icons.search,
+      // SOLUCIÓN AL DISEÑO MONTADO: SafeArea
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Texto "Gestión de Comercial" ELIMINADO.
+              Row(
+                children: [
+                  const Icon(
+                    Icons.shopping_cart_outlined,
                     color: primaryGold,
-                    size: 20,
+                    size: 28,
                   ),
-                  filled: true,
-                  fillColor: searchBgColor,
-                  contentPadding: EdgeInsets.zero,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: borderColor),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Órdenes de Pedido',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: textColor,
+                    ),
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: borderColor),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: primaryGold),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Text(
+                '${_ordenesFiltradas.length} registros encontrados',
+                style: TextStyle(fontSize: 13, color: subtitleColor),
+              ),
+              const SizedBox(height: 16),
+
+              // Buscador
+              SizedBox(
+                height: 48,
+                child: TextField(
+                  controller: _searchController,
+                  onChanged: (_) => _aplicarFiltros(),
+                  style: TextStyle(color: textColor, fontSize: 14),
+                  decoration: InputDecoration(
+                    hintText: 'Buscar por código o remisión...',
+                    hintStyle: TextStyle(color: subtitleColor, fontSize: 14),
+                    prefixIcon: const Icon(
+                      Icons.search,
+                      color: primaryGold,
+                      size: 20,
+                    ),
+                    filled: true,
+                    fillColor: searchBgColor,
+                    contentPadding: EdgeInsets.zero,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: borderColor),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: borderColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: primaryGold),
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
+              const SizedBox(height: 16),
 
-            // Filtros (Chips) horizontales
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: _opcionesFiltro.map((opcion) {
-                  final isSelected = _filtroActual == opcion;
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          _filtroActual = opcion;
-                          _aplicarFiltros();
-                        });
-                      },
-                      borderRadius: BorderRadius.circular(8),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? primaryGold.withOpacity(0.15)
-                              : Colors.transparent,
-                          border: Border.all(
-                            color: isSelected ? primaryGold : borderColor,
+              // Filtros (Chips) horizontales
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: _opcionesFiltro.map((opcion) {
+                    final isSelected = _filtroActual == opcion;
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            _filtroActual = opcion;
+                            _aplicarFiltros();
+                          });
+                        },
+                        borderRadius: BorderRadius.circular(8),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
                           ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          opcion,
-                          style: TextStyle(
-                            color: isSelected ? primaryGold : subtitleColor,
-                            fontWeight: isSelected
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                            fontSize: 13,
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? primaryGold.withOpacity(0.15)
+                                : Colors.transparent,
+                            border: Border.all(
+                              color: isSelected ? primaryGold : borderColor,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            opcion,
+                            style: TextStyle(
+                              color: isSelected ? primaryGold : subtitleColor,
+                              fontWeight: isSelected
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              fontSize: 13,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                }).toList(),
+                    );
+                  }).toList(),
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
+              const SizedBox(height: 16),
 
-            // Lista de Tarjetas (Diseño Cuadrado)
-            Expanded(
-              child: ListView.builder(
-                itemCount: _ordenesFiltradas.length,
-                itemBuilder: (context, index) {
-                  final o = _ordenesFiltradas[index];
-                  return Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: cardColor,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: borderColor),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Icono Cuadrado a la izquierda
-                            Container(
-                              width: 48,
-                              height: 48,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(
-                                  color: primaryGold.withOpacity(0.5),
+              // Lista de Tarjetas (Diseño Cuadrado)
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _ordenesFiltradas.length,
+                  itemBuilder: (context, index) {
+                    final o = _ordenesFiltradas[index];
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: cardColor,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: borderColor),
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Icono Cuadrado a la izquierda
+                              Container(
+                                width: 48,
+                                height: 48,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: primaryGold.withOpacity(0.5),
+                                  ),
+                                  color: primaryGold.withOpacity(0.05),
                                 ),
-                                color: primaryGold.withOpacity(0.05),
+                                child: const Icon(
+                                  Icons.receipt_long_outlined,
+                                  color: primaryGold,
+                                  size: 24,
+                                ),
                               ),
-                              child: const Icon(
-                                Icons.receipt_long_outlined,
-                                color: primaryGold,
-                                size: 24,
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            // Información Central
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          o.id,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: textColor,
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                      // Cambio de estado directo
-                                      PopupMenuButton<String>(
-                                        initialValue: o.estado,
-                                        tooltip: 'Cambiar Estado',
-                                        onSelected: (nuevoEstado) =>
-                                            _cambiarEstadoDirecto(
-                                              o,
-                                              nuevoEstado,
+                              const SizedBox(width: 12),
+                              // Información Central
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            o.id,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: textColor,
                                             ),
-                                        color: isDark
-                                            ? const Color(0xFF252525)
-                                            : Colors.white,
-                                        itemBuilder: (context) =>
-                                            [
-                                                  'Pendiente',
-                                                  'Completado',
-                                                  'Cancelado',
-                                                ]
-                                                .map(
-                                                  (e) => PopupMenuItem(
-                                                    value: e,
-                                                    child: Text(
-                                                      e,
-                                                      style: TextStyle(
-                                                        color: textColor,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        // Cambio de estado directo
+                                        PopupMenuButton<String>(
+                                          initialValue: o.estado,
+                                          tooltip: 'Cambiar Estado',
+                                          onSelected: (nuevoEstado) =>
+                                              _cambiarEstadoDirecto(
+                                                o,
+                                                nuevoEstado,
+                                              ),
+                                          color: isDark
+                                              ? const Color(0xFF252525)
+                                              : Colors.white,
+                                          itemBuilder: (context) =>
+                                              [
+                                                    'Pendiente',
+                                                    'Completado',
+                                                    'Cancelado',
+                                                  ]
+                                                  .map(
+                                                    (e) => PopupMenuItem(
+                                                      value: e,
+                                                      child: Text(
+                                                        e,
+                                                        style: TextStyle(
+                                                          color: textColor,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                )
-                                                .toList(),
-                                        child: _buildBadgeEstado(
-                                          o.estado,
-                                          isDark,
+                                                  )
+                                                  .toList(),
+                                          child: _buildBadgeEstado(
+                                            o.estado,
+                                            isDark,
+                                          ),
                                         ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Remisión → ${o.idRemision}',
+                                      style: TextStyle(
+                                        color: subtitleColor,
+                                        fontSize: 13,
                                       ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    'Remisión → ${o.idRemision}',
-                                    style: TextStyle(
-                                      color: subtitleColor,
-                                      fontSize: 13,
                                     ),
-                                  ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    'Fecha registrada: ${o.fecha}',
-                                    style: TextStyle(
-                                      color: subtitleColor,
-                                      fontSize: 12,
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      'Fecha registrada: ${o.fecha}',
+                                      style: TextStyle(
+                                        color: subtitleColor,
+                                        fontSize: 12,
+                                      ),
                                     ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          Divider(color: borderColor, height: 1),
+                          const SizedBox(height: 12),
+                          // Botones de acción inferiores
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: borderColor),
+                                ),
+                                child: IconButton(
+                                  icon: const Icon(
+                                    Icons.edit_outlined,
+                                    color: primaryGold,
+                                    size: 18,
                                   ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 12),
-                        Divider(color: borderColor, height: 1),
-                        const SizedBox(height: 12),
-                        // Botones de acción inferiores
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(color: borderColor),
-                              ),
-                              child: IconButton(
-                                icon: const Icon(
-                                  Icons.edit_outlined,
-                                  color: primaryGold,
-                                  size: 18,
+                                  constraints: const BoxConstraints(
+                                    minWidth: 36,
+                                    minHeight: 36,
+                                  ),
+                                  padding: EdgeInsets.zero,
+                                  tooltip: 'Editar',
+                                  onPressed: () => _abrirModalEditar(o),
                                 ),
-                                constraints: const BoxConstraints(
-                                  minWidth: 36,
-                                  minHeight: 36,
-                                ),
-                                padding: EdgeInsets.zero,
-                                tooltip: 'Editar',
-                                onPressed: () => _abrirModalEditar(o),
                               ),
-                            ),
-                            const SizedBox(width: 12),
-                            Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(color: borderColor),
-                              ),
-                              child: IconButton(
-                                icon: const Icon(
-                                  Icons.delete_outline,
-                                  color: primaryGold,
-                                  size: 18,
+                              const SizedBox(width: 12),
+                              Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: borderColor),
                                 ),
-                                constraints: const BoxConstraints(
-                                  minWidth: 36,
-                                  minHeight: 36,
+                                child: IconButton(
+                                  icon: const Icon(
+                                    Icons.delete_outline,
+                                    color: primaryGold,
+                                    size: 18,
+                                  ),
+                                  constraints: const BoxConstraints(
+                                    minWidth: 36,
+                                    minHeight: 36,
+                                  ),
+                                  padding: EdgeInsets.zero,
+                                  tooltip: 'Eliminar',
+                                  onPressed: () => _abrirModalEliminar(o),
                                 ),
-                                padding: EdgeInsets.zero,
-                                tooltip: 'Eliminar',
-                                onPressed: () => _abrirModalEliminar(o),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                },
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
