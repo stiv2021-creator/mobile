@@ -74,11 +74,7 @@ class _HoverActionButtonState extends State<_HoverActionButton> {
                 : Colors.transparent,
             shape: BoxShape.circle,
           ),
-          child: Icon(
-            widget.icon,
-            size: 18,
-            color: widget.doradoColor,
-          ),
+          child: Icon(widget.icon, size: 18, color: widget.doradoColor),
         ),
       ),
     );
@@ -146,8 +142,9 @@ class _ClientesViewState extends State<ClientesView> {
   @override
   Widget build(BuildContext context) {
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor =
-        isDarkMode ? const Color(0xFF121212) : const Color(0xFFF8F9FA);
+    final backgroundColor = isDarkMode
+        ? const Color(0xFF121212)
+        : const Color(0xFFF8F9FA);
     final cardColor = isDarkMode ? const Color(0xFF1E1E1E) : Colors.white;
     final textColor = isDarkMode ? Colors.white : Colors.black87;
     final subTextColor = isDarkMode ? Colors.grey[400]! : Colors.grey[600]!;
@@ -200,16 +197,13 @@ class _ClientesViewState extends State<ClientesView> {
                       ),
                     ),
                     onPressed: () {
-                      _mostrarModalAgregar(
-                        context,
-                        isDarkMode,
-                        doradoColor,
-                        (nuevoCliente) {
-                          setState(() {
-                            _clientes.insert(0, nuevoCliente);
-                          });
-                        },
-                      );
+                      _mostrarModalAgregar(context, isDarkMode, doradoColor, (
+                        nuevoCliente,
+                      ) {
+                        setState(() {
+                          _clientes.insert(0, nuevoCliente);
+                        });
+                      });
                     },
                     icon: const Icon(Icons.add, size: 18),
                     label: const Text(
@@ -268,8 +262,9 @@ class _ClientesViewState extends State<ClientesView> {
                             isDarkMode: isDarkMode,
                             onEstadoChanged: (nuevoEstado) {
                               setState(() {
-                                item.estado =
-                                    nuevoEstado ? 'ACTIVO' : 'INACTIVO';
+                                item.estado = nuevoEstado
+                                    ? 'ACTIVO'
+                                    : 'INACTIVO';
                               });
                             },
                             onEditPressed: () {
@@ -433,8 +428,9 @@ class _ClientesViewState extends State<ClientesView> {
             item.correo,
             subTextColor,
             doradoColor,
-            textColorCustom:
-                isDarkMode ? const Color(0xFF64B5F6) : const Color(0xFF4285D4),
+            textColorCustom: isDarkMode
+                ? const Color(0xFF64B5F6)
+                : const Color(0xFF4285D4),
           ),
           const SizedBox(height: 6),
           _buildInfoRow(
@@ -671,8 +667,9 @@ class _ClientesViewState extends State<ClientesView> {
 
     final dialogBg = isDarkMode ? const Color(0xFF1E1E1E) : Colors.white;
     final textColor = isDarkMode ? Colors.white : Colors.black87;
-    final inputBg =
-        isDarkMode ? const Color(0xFF2D2D2D) : const Color(0xFFF1F3F5);
+    final inputBg = isDarkMode
+        ? const Color(0xFF2D2D2D)
+        : const Color(0xFFF1F3F5);
 
     showDialog(
       context: context,
@@ -734,7 +731,10 @@ class _ClientesViewState extends State<ClientesView> {
                                 _buildLabelModal('NOMBRE *'),
                                 TextField(
                                   controller: nombreController,
-                                  style: TextStyle(color: textColor, fontSize: 14),
+                                  style: TextStyle(
+                                    color: textColor,
+                                    fontSize: 14,
+                                  ),
                                   decoration: _inputDecorationModal(
                                     'Nombre del cliente',
                                     inputBg,
@@ -954,8 +954,9 @@ class _ClientesViewState extends State<ClientesView> {
 
     final dialogBg = isDarkMode ? const Color(0xFF1E1E1E) : Colors.white;
     final textColor = isDarkMode ? Colors.white : Colors.black87;
-    final inputBg =
-        isDarkMode ? const Color(0xFF2D2D2D) : const Color(0xFFF1F3F5);
+    final inputBg = isDarkMode
+        ? const Color(0xFF2D2D2D)
+        : const Color(0xFFF1F3F5);
 
     showDialog(
       context: context,
