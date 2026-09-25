@@ -20,6 +20,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
 
 flutter:
   assets:
@@ -27,7 +28,7 @@ flutter:
     - lib/images/logo_negro.jpg
   uses-material-design: true
 
-  flutter_launcher_icons:
+flutter_launcher_icons:
   android: "ic_launcher"
   ios: true
   image_path: "lib/images/Logo_mobile.png"
