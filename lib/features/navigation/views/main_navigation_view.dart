@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 
 // ==========================================
 // IMPORTACIONES DE VISTAS
-// Verifica que estas rutas coincidan exactamente con tus carpetas físicas
 // ==========================================
 import '../../produccion_inventario/insumos/views/insumos_mobile_view.dart';
 import '../../produccion_inventario/compras/views/compras_mobile_view.dart';
 import '../../catalogos/clientes/views/clientes_view.dart';
-import '../../Proveedores/views/proveedores_view.dart'; // Tu nueva vista
-import '../../produccion_inventario/remision/views/remision_mobile_view.dart';
-import '../../ordenes_de_pedido/views/ordenes_pedido_view.dart'; // Tu nueva vista
+import '../../Proveedores/views/proveedores_view.dart';
+import '../../ordenes_de_pedido/views/ordenes_pedido_view.dart';
 import '../../operaciones/ventas/views/ventas_view.dart';
 import '../../produccion_inventario/produccion/views/produccion_view.dart';
 import '../../operaciones/registro_diario/views/registro_diario_view.dart';
@@ -28,19 +26,18 @@ class _MainNavigationViewState extends State<MainNavigationView> {
   int _currentIndex = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // Lista completa con las vistas del sistema mapeadas por índice
+  // Lista completa con las vistas del sistema (Remisiones eliminada y reindexada)
   final List<Widget> _pages = [
     const DashboardPage(), // 0: Dashboard
     const ClientesView(), // 1: Clientes
-    const ProveedoresView(), // 2: Proveedores (NUEVO)
-    const RemisionMobileView(), // 3: Remisiones
-    const OrdenesPedidoView(), // 4: Órdenes de Pedido (NUEVO)
-    const VentasView(), // 5: Ventas
-    const InsumosMobileView(), // 6: Insumos
-    const ComprasMobileView(), // 7: Compras
-    const ProduccionView(), // 8: Gestión de Producción
-    const RegistroDiarioView(), // 9: Registro Diario
-    const EmpleadosView(), // 10: Empleados
+    const ProveedoresView(), // 2: Proveedores
+    const OrdenesPedidoView(), // 3: Órdenes de Pedido
+    const VentasView(), // 4: Ventas
+    const InsumosMobileView(), // 5: Insumos
+    const ComprasMobileView(), // 6: Compras
+    const ProduccionView(), // 7: Gestión de Producción
+    const RegistroDiarioView(), // 8: Registro Diario
+    const EmpleadosView(), // 9: Empleados
   ];
 
   // Método auxiliar para cambiar de vista desde el Drawer y cerrarlo automáticamente
@@ -56,11 +53,11 @@ class _MainNavigationViewState extends State<MainNavigationView> {
     switch (_currentIndex) {
       case 0:
         return 0; // Inicio (Dashboard)
-      case 6:
+      case 5:
         return 1; // Stock (Insumos)
       case 1:
         return 2; // Clientes
-      case 5:
+      case 4:
         return 3; // Ventas
       default:
         return 0; // Si está en otra vista del Drawer, marca Inicio por defecto
@@ -90,7 +87,6 @@ class _MainNavigationViewState extends State<MainNavigationView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Imagen del logo dinámica apuntando a lib/images/
                     Image.asset(
                       isDarkMode
                           ? 'lib/images/logo_negro.jpg'
@@ -117,7 +113,7 @@ class _MainNavigationViewState extends State<MainNavigationView> {
                 color: isDarkMode ? Colors.white24 : Colors.black12,
                 height: 1,
               ),
-              // Lista de opciones del menú lateral vinculadas por índice
+              // Lista de opciones del menú lateral reindexadas sin Remisiones
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.symmetric(vertical: 8),
@@ -146,62 +142,55 @@ class _MainNavigationViewState extends State<MainNavigationView> {
                       isDarkMode,
                     ),
                     _buildDrawerItem(
-                      Icons.local_offer_outlined,
-                      'Remisiones',
+                      Icons.shopping_cart_outlined,
+                      'Órdenes de Pedido',
                       _currentIndex == 3,
                       () => _navigateToPage(3),
                       isDarkMode,
                     ),
                     _buildDrawerItem(
-                      Icons.shopping_cart_outlined,
-                      'Órdenes de Pedido',
-                      _currentIndex == 4,
-                      () => _navigateToPage(4),
-                      isDarkMode,
-                    ),
-                    _buildDrawerItem(
                       Icons.trending_up,
                       'Ventas',
-                      _currentIndex == 5,
-                      () => _navigateToPage(5),
+                      _currentIndex == 4,
+                      () => _navigateToPage(4),
                       isDarkMode,
                     ),
                     _buildSectionTitle('ALMACÉN'),
                     _buildDrawerItem(
                       Icons.inventory_2_outlined,
                       'Insumos',
-                      _currentIndex == 6,
-                      () => _navigateToPage(6),
+                      _currentIndex == 5,
+                      () => _navigateToPage(5),
                       isDarkMode,
                     ),
                     _buildDrawerItem(
                       Icons.shopping_cart_outlined,
                       'Compras',
-                      _currentIndex == 7,
-                      () => _navigateToPage(7),
+                      _currentIndex == 6,
+                      () => _navigateToPage(6),
                       isDarkMode,
                     ),
                     _buildSectionTitle('PRODUCCIÓN'),
                     _buildDrawerItem(
                       Icons.precision_manufacturing_outlined,
                       'Gestión de Producción',
-                      _currentIndex == 8,
-                      () => _navigateToPage(8),
+                      _currentIndex == 7,
+                      () => _navigateToPage(7),
                       isDarkMode,
                     ),
                     _buildDrawerItem(
                       Icons.tune_outlined,
                       'Registro Diario',
-                      _currentIndex == 9,
-                      () => _navigateToPage(9),
+                      _currentIndex == 8,
+                      () => _navigateToPage(8),
                       isDarkMode,
                     ),
                     _buildSectionTitle('ADMINISTRACIÓN'),
                     _buildDrawerItem(
                       Icons.badge_outlined,
                       'Empleados',
-                      _currentIndex == 10,
-                      () => _navigateToPage(10),
+                      _currentIndex == 9,
+                      () => _navigateToPage(9),
                       isDarkMode,
                     ),
                   ],
@@ -295,7 +284,6 @@ class _MainNavigationViewState extends State<MainNavigationView> {
           ),
         ),
       ),
-      // Muestra la vista seleccionada dentro del contenedor principal
       body: _pages[_currentIndex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
@@ -317,9 +305,9 @@ class _MainNavigationViewState extends State<MainNavigationView> {
             } else {
               setState(() {
                 if (index == 0) _currentIndex = 0; // Inicio
-                if (index == 1) _currentIndex = 6; // Stock (Insumos)
+                if (index == 1) _currentIndex = 5; // Stock (Insumos)
                 if (index == 2) _currentIndex = 1; // Clientes
-                if (index == 3) _currentIndex = 5; // Ventas
+                if (index == 3) _currentIndex = 4; // Ventas
               });
             }
           },
