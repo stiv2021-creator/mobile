@@ -26,3 +26,8 @@ flutter:
     - lib/images/logo_blanco.jpg
     - lib/images/logo_negro.jpg
   uses-material-design: true
+
+  flutter_launcher_icons:
+  android: "ic_launcher"
+  ios: true
+  image_path: "lib/images/Logo_mobile.png"
